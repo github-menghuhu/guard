@@ -1,9 +1,14 @@
-import sys
 import json
 import logging
+import sys
+from typing import TYPE_CHECKING
 
 from loguru import logger
+
 from guard.core.config import settings
+
+if TYPE_CHECKING:
+    from loguru import Record
 
 LOG_LEVEL = settings.LOG_LEVEL
 
@@ -25,7 +30,7 @@ class InterceptHandler(logging.Handler):
         )
 
 
-def stdout_format(record: "Record") -> str:
+def stdout_format(record: Record) -> str:
     record["extra"]["extra_json"] = json.dumps(record["extra"])
     return (
         "<green>{time:YYYY-MM-DD HH:mm:ss.SSS}</green> | "
