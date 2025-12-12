@@ -1,26 +1,33 @@
 import uuid
+from datetime import UTC, datetime
 
-from datetime import datetime, timezone
-from sqlalchemy import MetaData, DateTime, Boolean
+from sqlalchemy import Boolean, DateTime, MetaData
+from sqlalchemy.dialects import mysql, postgresql
 from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column
 from sqlalchemy.types import CHAR, TypeDecorator
-from sqlalchemy.dialects import mysql, postgresql
+
 from guard.utils import datetime as utils_datetime
 
 
 class TimestampMixin:
     created_at: Mapped[datetime] = mapped_column(
-        DateTime(timezone=True), default=utils_datetime.get_datetime_now(timezone.utc), nullable=False
+        DateTime(timezone=True),
+        default=utils_datetime.get_datetime_now(UTC),
+        nullable=False,
     )
     updated_at: Mapped[datetime] = mapped_column(
-        DateTime(timezone=True), default=utils_datetime.get_datetime_now(timezone.utc), nullable=False,
-        onupdate=utils_datetime.get_datetime_now(timezone.utc)
+        DateTime(timezone=True),
+        default=utils_datetime.get_datetime_now(UTC),
+        nullable=False,
+        onupdate=utils_datetime.get_datetime_now(UTC),
     )
 
 
 class SoftDeleteMixin:
     is_deleted: Mapped[bool] = mapped_column(Boolean(), default=False, nullable=False)
-    deleted_at: Mapped[datetime | None] = mapped_column(DateTime(timezone=True), default=None, nullable=True)
+    deleted_at: Mapped[datetime | None] = mapped_column(
+        DateTime(timezone=True), default=None, nullable=True
+    )
 
 
 class GUID(TypeDecorator):

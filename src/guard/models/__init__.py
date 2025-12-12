@@ -1,4 +1,4 @@
-from .base import Base, GUID, TimestampMixin, SoftDeleteMixin
+from .base import GUID, Base, SoftDeleteMixin, TimestampMixin
 from .tenant import Tenant
 from .user import User
 

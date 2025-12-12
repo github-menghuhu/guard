@@ -1,8 +1,8 @@
 import os
-
 from enum import StrEnum
 from functools import lru_cache
-from pydantic import computed_field
+
+from pydantic import ValidationError, computed_field
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
 
@@ -21,10 +21,12 @@ class DatabaseType(StrEnum):
 
 class Settings(BaseSettings):
     # 项目根目录
-    @computed_field
+    @computed_field  # type: ignore[prop-decorator]
     @property
     def BASE_DIR(self) -> str:
-        return os.path.dirname(os.path.dirname(os.path.dirname(os.path.dirname(__file__))))
+        return os.path.dirname(
+            os.path.dirname(os.path.dirname(os.path.dirname(__file__)))
+        )
 
     # 全局时区
     TIME_ZONE: str = "Asia/Shanghai"
@@ -50,8 +52,7 @@ class Settings(BaseSettings):
     SECRET: str
 
     model_config = SettingsConfigDict(
-        env_file='.env.dev',
-        env_file_encoding='utf-8',
+        env_file_encoding="utf-8",
         # env_nested_delimiter='__', # 嵌套结构时用这个参数分割
         case_sensitive=True,
     )
@@ -60,12 +61,12 @@ class Settings(BaseSettings):
 @lru_cache
 def _get_settings() -> Settings:
     try:
-        settings = Settings()
-    except Exception as e:
-        raise Exception(
+        settings = Settings(_env_file=".env.dev")  # type: ignore[call-arg]
+    except ValidationError as e:
+        raise RuntimeError(  # noqa: TRY003
             f"""
             环境变量加载异常，请检查.env文件！\n
-            异常信息：{e}
+            异常信息：{e.errors()}
             """
         )
 

@@ -1,6 +1,7 @@
 from sqlalchemy import URL
 from sqlalchemy.ext.asyncio import async_sessionmaker, create_async_engine
-from guard.core.config import settings, DatabaseType
+
+from guard.core.config import DatabaseType, settings
 
 if settings.DATABASE_TYPE == DatabaseType.POSTGRESQL:
     driver_name = "postgresql+asyncpg"

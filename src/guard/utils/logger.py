@@ -30,7 +30,7 @@ class InterceptHandler(logging.Handler):
         )
 
 
-def stdout_format(record: Record) -> str:
+def stdout_format(record: "Record") -> str:
     record["extra"]["extra_json"] = json.dumps(record["extra"])
     return (
         "<green>{time:YYYY-MM-DD HH:mm:ss.SSS}</green> | "

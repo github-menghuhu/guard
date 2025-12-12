@@ -1,8 +1,10 @@
-from contextlib import asynccontextmanager
 from collections.abc import AsyncGenerator
+from contextlib import asynccontextmanager
+
 from fastapi import FastAPI
+
 from guard.core.config import settings
-from guard.utils.log import init_logger, logger
+from guard.utils.logger import init_logger, logger
 
 
 @asynccontextmanager

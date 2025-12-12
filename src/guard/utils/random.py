@@ -13,4 +13,4 @@ def generate_random_string(length: int = 6) -> str:
         str: 随机字符串，包含字母和数字
     """
     characters = string.ascii_letters + string.digits
-    return ''.join(choice(characters) for _ in range(length))
+    return "".join(choice(characters) for _ in range(length))
