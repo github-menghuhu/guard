@@ -38,6 +38,7 @@ class Settings(BaseSettings):
     DATABASE_USERNAME: str
     DATABASE_PASSWORD: str
     DATABASE_NAME: str
+    DATABASE_TABLE_PREFIX: str = "guard_"
     IS_PRINT_SQL: bool = False
 
     REDIS_HOST: str
@@ -50,6 +51,30 @@ class Settings(BaseSettings):
 
     # 全局密钥
     SECRET: str
+
+    # 跨域允许列表
+    ORIGINS: list[str] = [
+        "http://localhost",
+        "http://localhost:9000",
+    ]
+
+    # 加密密钥
+    ENCRYPTION_KEY: bytes
+
+    # 默认授权码、访问令牌和ID令牌、刷新令牌过期时间
+    DEFAULT_AUTHORIZATION_CODE_LIFETIME_SECONDS: int = 600
+    DEFAULT_ACCESS_ID_TOKEN_LIFETIME_SECONDS: int = 3600 * 24
+    DEFAULT_REFRESH_TOKEN_LIFETIME_SECONDS: int = 3600 * 24 * 7
+
+    # 注册会话过期时间
+    REGISTRATION_SESSION_LIFETIME_SECONDS: int = 3600
+    # 登录会话过期时间
+    LOGIN_SESSION_LIFETIME_SECONDS: int = 3600
+    # OAuth会话过期时间
+    OAUTH_SESSION_LIFETIME_SECONDS: int = 3600
+
+    # 用户会话过期时间
+    SESSION_LIFETIME_SECONDS: int = 3600 * 24 * 7
 
     model_config = SettingsConfigDict(
         env_file_encoding="utf-8",

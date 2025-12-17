@@ -2,8 +2,11 @@ from collections.abc import AsyncGenerator
 from contextlib import asynccontextmanager
 
 from fastapi import FastAPI
+from fastapi.middleware.cors import CORSMiddleware
 
+from guard import __version__
 from guard.core.config import settings
+from guard.middlewares import RequestIDMiddleware, origins
 from guard.utils.logger import init_logger, logger
 
 
@@ -18,7 +21,16 @@ async def lifespan(app: FastAPI) -> AsyncGenerator[None]:
     logger.info("Guard Server stopped")
 
 
-app = FastAPI(lifespan=lifespan)
+app = FastAPI(title="Fief Authentication API", lifespan=lifespan, version=__version__)
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+app.add_middleware(RequestIDMiddleware)
 
 
 @app.get("/healthz")
