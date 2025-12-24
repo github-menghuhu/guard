@@ -20,8 +20,8 @@ from guard.models.client import Client
 class ACR(StrEnum):
     LEVEL_0 = "0"  # 匿名/最低保证
     LEVEL_1 = "1"  # 单因素认证
-    LEVEL_2 = "2"  # 多因素认证
-    LEVEL_3 = "3"  # 强认证
+    LEVEL_2 = "2"
+    LEVEL_3 = "3"
 
 
 class LoginSession(Base, CreatedUpdatedAtMixin, ExpiresAtMixin):

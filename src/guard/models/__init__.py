@@ -10,7 +10,7 @@ from .base import (
     UTCDateTime,
     get_prefixed_tablename,
 )
-from .client import Client
+from .client import Client, ResponseTypes
 from .grant import Grant
 from .login_session import ACR, LoginSession
 from .oauth_account import OAuthAccount
@@ -19,7 +19,6 @@ from .oauth_session import OAuthSession
 from .refresh_token import RefreshToken
 from .registration_session import RegistrationSession, RegistrationSessionFlow
 from .session_token import SessionToken
-from .tenant import Tenant
 from .user import User
 
 __all__ = [
@@ -32,8 +31,8 @@ __all__ = [
     "SoftDeleteMixin",
     "TABLE_PREFIX",
     "get_prefixed_tablename",
-    "Tenant",
     "Client",
+    "ResponseTypes",
     "User",
     "OAuthProvider",
     "OAuthAccount",

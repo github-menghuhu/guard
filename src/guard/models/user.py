@@ -1,14 +1,13 @@
 import uuid
 
-from sqlalchemy import Boolean, ForeignKey, String
-from sqlalchemy.orm import Mapped, mapped_column, relationship
+from sqlalchemy import Boolean, String
+from sqlalchemy.orm import Mapped, mapped_column
 
 from guard.models.base import (
     GUID,
     Base,
     CreatedUpdatedAtMixin,
 )
-from guard.models.tenant import Tenant
 from guard.utils.random import generate_random_string
 
 
@@ -31,8 +30,3 @@ class User(Base, CreatedUpdatedAtMixin):
     )
     password: Mapped[str] = mapped_column(String(length=255), nullable=False)
     is_active: Mapped[bool] = mapped_column(Boolean, default=True, nullable=False)
-
-    tenant_id: Mapped[uuid.UUID] = mapped_column(
-        GUID, ForeignKey(Tenant.id, ondelete="CASCADE"), index=True, nullable=False
-    )
-    tenant: Mapped[Tenant] = relationship()

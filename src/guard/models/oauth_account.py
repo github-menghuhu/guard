@@ -13,7 +13,6 @@ from guard.models.base import (
     UTCDateTime,
 )
 from guard.models.oauth_provider import OAuthProvider
-from guard.models.tenant import Tenant
 from guard.models.user import User
 
 
@@ -44,11 +43,6 @@ class OAuthAccount(Base, CreatedUpdatedAtMixin):
         GUID, ForeignKey(User.id, ondelete="CASCADE"), nullable=True
     )
     user: Mapped[User | None] = relationship()
-
-    tenant_id: Mapped[uuid.UUID] = mapped_column(
-        GUID, ForeignKey(Tenant.id, ondelete="CASCADE"), nullable=False
-    )
-    tenant: Mapped[Tenant] = relationship()
 
     def is_expired(self) -> bool:
         return self.expires_at is not None and self.expires_at < datetime.now(UTC)

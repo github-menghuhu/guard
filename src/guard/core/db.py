@@ -16,6 +16,5 @@ url_object = URL.create(
     password=settings.DATABASE_PASSWORD,
     database=settings.DATABASE_NAME,
 )
-print(f">>>>url_object:{url_object.render_as_string(hide_password=False)}")
 engine = create_async_engine(url_object, echo=settings.IS_PRINT_SQL, future=True)
 async_session_maker = async_sessionmaker(bind=engine, autocommit=False, autoflush=False)

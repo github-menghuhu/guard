@@ -14,7 +14,7 @@ LOG_LEVEL = settings.LOG_LEVEL
 
 
 class InterceptHandler(logging.Handler):
-    def emit(self, record):
+    def emit(self, record) -> None:
         try:
             level = logger.level(record.levelname).name
         except ValueError:
@@ -41,7 +41,7 @@ def stdout_format(record: "Record") -> str:
     )
 
 
-def init_logger(level="INFO", intercept_fastapi=True):
+def init_logger(level="INFO", intercept_fastapi=True) -> None:
     logger.remove()
     logger.add(
         sys.stdout,
@@ -54,8 +54,14 @@ def init_logger(level="INFO", intercept_fastapi=True):
     if intercept_fastapi:
         logging.basicConfig(handlers=[InterceptHandler()], level=0, force=True)
 
-        # 设置特定logger的级别
-        for logger_name in ["uvicorn", "uvicorn.error", "uvicorn.access", "fastapi"]:
+        for logger_name in [
+            "uvicorn",
+            "uvicorn.error",
+            "uvicorn.access",
+            "fastapi",
+            "api_exception",
+            "sqlalchemy.engine.Engine",
+        ]:
             logging.getLogger(logger_name).handlers = [InterceptHandler()]
             logging.getLogger(logger_name).propagate = False
 

@@ -99,6 +99,25 @@ typing_extensions = {version = ">=4.5", markers = "python_version < \"3.13\""}
 trio = ["trio (>=0.31.0) ; python_version < \"3.10\"", "trio (>=0.32.0) ; python_version >= \"3.10\""]
 
 [[package]]
+name = "apiexception"
+version = "0.2.1"
+description = "Consistent JSON response formatting and exception & error handling for FastAPI applications"
+optional = false
+python-versions = "<4.0,>=3.9"
+groups = ["main"]
+files = [
+    {file = "apiexception-0.2.1-py3-none-any.whl", hash = "sha256:237b1c45d1b6b7afa4c28e06d485f48bdfab007b7722dfcf33407410229fd670"},
+    {file = "apiexception-0.2.1.tar.gz", hash = "sha256:905c139edffc27ad6893d863206bc864d76c1ad535f8114c1d0addd8b354e92d"},
+]
+
+[package.dependencies]
+click = ">=8.0.0"
+fastapi = ">=0.115.4"
+httpx = ">=0.27.0"
+pydantic = ">=2.0.0"
+typing-extensions = ">=4.0.0"
+
+[[package]]
 name = "asyncpg"
 version = "0.31.0"
 description = "An asyncio PostgreSQL driver"
@@ -2341,4 +2360,4 @@ dev = ["black (>=19.3b0) ; python_version >= \"3.6\"", "pytest (>=4.6.2)"]
 [metadata]
 lock-version = "2.1"
 python-versions = ">=3.12,<3.13"
-content-hash = "5dfc7344cd94f5ed20973d853798cc6ff067b8993aff2b6351e54c0404623efc"
+content-hash = "5870774861b86b1da30c1b7f51a54128c65134d94a062b533faffe5e3de4a0de"

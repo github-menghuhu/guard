@@ -57,6 +57,8 @@ class Settings(BaseSettings):
         "http://localhost",
         "http://localhost:9000",
     ]
+    METHODS: list[str] = ["*"]
+    HEADERS: list[str] = ["*"]
 
     # 加密密钥
     ENCRYPTION_KEY: bytes

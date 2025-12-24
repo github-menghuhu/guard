@@ -1,14 +1,14 @@
 import time
 from uuid import uuid4
 
-from fastapi import Request
+from fastapi import Request, Response
 from starlette.middleware.base import BaseHTTPMiddleware
 
 from guard.utils.logger import logger
 
 
 class RequestIDMiddleware(BaseHTTPMiddleware):
-    async def dispatch(self, request: Request, call_next):
+    async def dispatch(self, request: Request, call_next) -> Response:
         start_time = start_time = time.perf_counter()
 
         request_id = request.headers.get("X-Request-ID", str(uuid4()))

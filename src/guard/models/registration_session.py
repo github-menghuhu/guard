@@ -14,7 +14,6 @@ from guard.models.base import (
     ExpiresAtMixin,
 )
 from guard.models.oauth_account import OAuthAccount
-from guard.models.tenant import Tenant
 
 
 class RegistrationSessionFlow(StrEnum):
@@ -43,8 +42,3 @@ class RegistrationSession(Base, CreatedUpdatedAtMixin, ExpiresAtMixin):
         GUID, ForeignKey(OAuthAccount.id, ondelete="CASCADE"), nullable=True
     )
     oauth_account: Mapped[OAuthAccount | None] = relationship()
-
-    tenant_id: Mapped[uuid.UUID] = mapped_column(
-        GUID, ForeignKey(Tenant.id, ondelete="CASCADE"), nullable=False
-    )
-    tenant: Mapped[Tenant] = relationship()

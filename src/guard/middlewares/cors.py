@@ -1,5 +1,7 @@
 from guard.core.config import settings
 
-origins = settings.ORIGINS
+allow_origins = settings.ORIGINS
+allow_methods = settings.METHODS
+allow_headers = settings.HEADERS
 
-__all__ = ["origins"]
+__all__ = ["allow_origins", "allow_methods", "allow_headers"]

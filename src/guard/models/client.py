@@ -2,8 +2,8 @@ import secrets
 import uuid
 from enum import StrEnum
 
-from sqlalchemy import JSON, ForeignKey, Integer, String, Text
-from sqlalchemy.orm import Mapped, mapped_column, relationship
+from sqlalchemy import JSON, Integer, String, Text
+from sqlalchemy.orm import Mapped, mapped_column
 
 from guard.core.config import settings
 from guard.models.base import (
@@ -11,12 +11,10 @@ from guard.models.base import (
     Base,
     CreatedUpdatedAtMixin,
 )
-from guard.models.tenant import Tenant
 
 
 class GrantTypes(StrEnum):
     AUTHORIZATION_CODE = "authorization_code"
-    REFRESH_TOKEN = "refresh_token"
 
 
 def generate_client_default_grant_types() -> list[str]:
@@ -25,9 +23,6 @@ def generate_client_default_grant_types() -> list[str]:
 
 class ResponseTypes(StrEnum):
     CODE = "code"
-    CODE_ID_TOKEN = "code id_token"
-    CODE_TOKEN = "code token"
-    CODE_ID_TOKEN_TOKEN = "code id_token token"
 
 
 def generate_client_default_response_types() -> list[str]:
@@ -68,8 +63,3 @@ class Client(Base, CreatedUpdatedAtMixin):
     )
     encrypt_jwk: Mapped[str | None] = mapped_column(Text, nullable=True)
     creator: Mapped[str] = mapped_column(String(length=255), nullable=False)
-
-    tenant_id: Mapped[uuid.UUID] = mapped_column(
-        ForeignKey(Tenant.id, ondelete="CASCADE")
-    )
-    tenant: Mapped[Tenant] = relationship(back_populates="clients")
