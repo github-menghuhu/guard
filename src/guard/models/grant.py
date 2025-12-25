@@ -8,16 +8,16 @@ from guard.models.base import (
     GUID,
     Base,
     CreatedUpdatedAtMixin,
+    UUIDPrimaryKeyMixin,
 )
 from guard.models.client import Client
 from guard.models.user import User
 
 
-class Grant(Base, CreatedUpdatedAtMixin):
+class Grant(UUIDPrimaryKeyMixin, Base, CreatedUpdatedAtMixin):
     __tablename__ = "grants"
     __table_args__ = (UniqueConstraint("user_id", "client_id"),)
 
-    id: Mapped[uuid.UUID] = mapped_column(GUID, primary_key=True, default=uuid.uuid4)
     scope: Mapped[list[str]] = mapped_column(JSON, nullable=False, default=list)
 
     user_id: Mapped[uuid.UUID] = mapped_column(

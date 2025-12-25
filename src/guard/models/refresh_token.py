@@ -10,15 +10,15 @@ from guard.models.base import (
     CreatedUpdatedAtMixin,
     ExpiresAtMixin,
     UTCDateTime,
+    UUIDPrimaryKeyMixin,
 )
 from guard.models.client import Client
 from guard.models.user import User
 
 
-class RefreshToken(Base, CreatedUpdatedAtMixin, ExpiresAtMixin):
+class RefreshToken(UUIDPrimaryKeyMixin, Base, CreatedUpdatedAtMixin, ExpiresAtMixin):
     __tablename__ = "refresh_tokens"
 
-    id: Mapped[uuid.UUID] = mapped_column(GUID, primary_key=True, default=uuid.uuid4)
     token: Mapped[str] = mapped_column(
         String(length=255),
         nullable=False,

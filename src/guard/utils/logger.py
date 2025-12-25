@@ -1,6 +1,7 @@
 import json
 import logging
 import sys
+from types import FrameType
 from typing import TYPE_CHECKING
 
 from loguru import logger
@@ -20,7 +21,8 @@ class InterceptHandler(logging.Handler):
         except ValueError:
             level = record.levelno
 
-        frame, depth = sys._getframe(6), 6
+        frame: FrameType | None = sys._getframe(6)
+        depth = 6
         while frame and frame.f_code.co_filename == logging.__file__:
             frame = frame.f_back
             depth += 1

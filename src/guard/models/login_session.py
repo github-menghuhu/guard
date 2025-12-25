@@ -13,6 +13,7 @@ from guard.models.base import (
     Base,
     CreatedUpdatedAtMixin,
     ExpiresAtMixin,
+    UUIDPrimaryKeyMixin,
 )
 from guard.models.client import Client
 
@@ -24,11 +25,10 @@ class ACR(StrEnum):
     LEVEL_3 = "3"
 
 
-class LoginSession(Base, CreatedUpdatedAtMixin, ExpiresAtMixin):
+class LoginSession(UUIDPrimaryKeyMixin, Base, CreatedUpdatedAtMixin, ExpiresAtMixin):
     __tablename__ = "login_sessions"
     __lifetime_seconds = settings.LOGIN_SESSION_LIFETIME_SECONDS
 
-    id: Mapped[uuid.UUID] = mapped_column(GUID, primary_key=True, default=uuid.uuid4)
     token: Mapped[str] = mapped_column(
         String(length=255),
         default=secrets.token_urlsafe,

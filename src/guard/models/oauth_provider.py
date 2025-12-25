@@ -1,15 +1,17 @@
-import uuid
-
 from sqlalchemy import JSON, String
 from sqlalchemy.orm import Mapped, mapped_column
 
-from guard.models.base import GUID, Base, CreatedUpdatedAtMixin, EncryptedString
+from guard.models.base import (
+    Base,
+    CreatedUpdatedAtMixin,
+    EncryptedString,
+    UUIDPrimaryKeyMixin,
+)
 
 
-class OAuthProvider(Base, CreatedUpdatedAtMixin):
+class OAuthProvider(UUIDPrimaryKeyMixin, Base, CreatedUpdatedAtMixin):
     __tablename__ = "oauth_providers"
 
-    id: Mapped[uuid.UUID] = mapped_column(GUID, primary_key=True, default=uuid.uuid4)
     provider_name: Mapped[str] = mapped_column(String(length=255), nullable=False)
     client_id: Mapped[str] = mapped_column(EncryptedString, nullable=False)
     client_secret: Mapped[str] = mapped_column(EncryptedString, nullable=False)

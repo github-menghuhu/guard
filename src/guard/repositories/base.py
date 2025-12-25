@@ -1,21 +1,19 @@
-from typing import Annotated
+from typing import TypeVar
 from uuid import UUID
 
-from fastapi import Depends
 from sqlalchemy import select
 from sqlalchemy.engine import Result
 from sqlalchemy.ext.asyncio import AsyncSession
+from sqlalchemy.orm import DeclarativeBase
 from sqlalchemy.sql import Select
 
-from guard.dependencies import get_async_session
+M = TypeVar("M", bound=DeclarativeBase)
 
 
 class BaseRepository[M]:
-    model: M
+    _model: type[M]
 
-    def __init__(
-        self, session: Annotated[AsyncSession, Depends(get_async_session)]
-    ) -> None:
+    def __init__(self, session: AsyncSession) -> None:
         self.session = session
 
     async def _execute(self, statement: Select) -> Result:
@@ -25,7 +23,7 @@ class BaseRepository[M]:
         pass
 
     async def get(self, id_: UUID) -> M | None:
-        result = await self._execute(select(self.model).where(self.model.id == id_))
+        result = await self._execute(select(self._model).where(self._model.id == id_))  # type: ignore[attr-defined]
         return result.scalar_one_or_none()
 
     async def create(self, object_: M) -> M:

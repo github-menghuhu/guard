@@ -3,4 +3,4 @@ from guard.repositories import BaseRepository
 
 
 class ClientRepository(BaseRepository[Client]):
-    model = Client
+    _model = Client

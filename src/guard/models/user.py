@@ -1,20 +1,17 @@
-import uuid
-
 from sqlalchemy import Boolean, String
 from sqlalchemy.orm import Mapped, mapped_column
 
 from guard.models.base import (
-    GUID,
     Base,
     CreatedUpdatedAtMixin,
+    UUIDPrimaryKeyMixin,
 )
 from guard.utils.random import generate_random_string
 
 
-class User(Base, CreatedUpdatedAtMixin):
+class User(UUIDPrimaryKeyMixin, Base, CreatedUpdatedAtMixin):
     __tablename__ = "users"
 
-    id: Mapped[uuid.UUID] = mapped_column(GUID, primary_key=True, default=uuid.uuid4)
     name: Mapped[str] = mapped_column(
         String(length=255), default=generate_random_string, nullable=False
     )

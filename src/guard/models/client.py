@@ -1,16 +1,11 @@
 import secrets
-import uuid
 from enum import StrEnum
 
 from sqlalchemy import JSON, Integer, String, Text
 from sqlalchemy.orm import Mapped, mapped_column
 
 from guard.core.config import settings
-from guard.models.base import (
-    GUID,
-    Base,
-    CreatedUpdatedAtMixin,
-)
+from guard.models.base import Base, CreatedUpdatedAtMixin, UUIDPrimaryKeyMixin
 
 
 class GrantTypes(StrEnum):
@@ -29,10 +24,13 @@ def generate_client_default_response_types() -> list[str]:
     return [rt.value for rt in ResponseTypes]
 
 
-class Client(Base, CreatedUpdatedAtMixin):
+class Scopes(StrEnum):
+    OPENID = "openid"
+
+
+class Client(UUIDPrimaryKeyMixin, Base, CreatedUpdatedAtMixin):
     __tablename__ = "clients"
 
-    id: Mapped[uuid.UUID] = mapped_column(GUID, primary_key=True, default=uuid.uuid4)
     client_name: Mapped[str] = mapped_column(String(length=255), nullable=False)
     client_id: Mapped[str] = mapped_column(
         String(length=255), default=secrets.token_urlsafe, nullable=False, index=True
@@ -47,7 +45,9 @@ class Client(Base, CreatedUpdatedAtMixin):
     response_types: Mapped[list[str]] = mapped_column(
         JSON, nullable=False, default=generate_client_default_response_types
     )
-    scopes: Mapped[list[str]] = mapped_column(JSON, nullable=False, default=["openid"])
+    scopes: Mapped[list[str]] = mapped_column(
+        JSON, nullable=False, default=[Scopes.OPENID]
+    )
     authorization_code_lifetime_seconds: Mapped[int] = mapped_column(
         Integer,
         nullable=False,

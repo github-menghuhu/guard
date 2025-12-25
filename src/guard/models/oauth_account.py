@@ -11,19 +11,19 @@ from guard.models.base import (
     CreatedUpdatedAtMixin,
     EncryptedString,
     UTCDateTime,
+    UUIDPrimaryKeyMixin,
 )
 from guard.models.oauth_provider import OAuthProvider
 from guard.models.user import User
 
 
-class OAuthAccount(Base, CreatedUpdatedAtMixin):
+class OAuthAccount(UUIDPrimaryKeyMixin, Base, CreatedUpdatedAtMixin):
     __tablename__ = "oauth_accounts"
     __table_args__ = (
         UniqueConstraint("oauth_provider_id", "user_id"),
         UniqueConstraint("oauth_provider_id", "account_id"),
     )
 
-    id: Mapped[uuid.UUID] = mapped_column(GUID, primary_key=True, default=uuid.uuid4)
     account_id: Mapped[str] = mapped_column(
         String(length=512), index=True, nullable=False
     )

@@ -10,16 +10,16 @@ from guard.models.base import (
     Base,
     CreatedUpdatedAtMixin,
     ExpiresAtMixin,
+    UUIDPrimaryKeyMixin,
 )
 from guard.models.oauth_account import OAuthAccount
 from guard.models.oauth_provider import OAuthProvider
 
 
-class OAuthSession(Base, CreatedUpdatedAtMixin, ExpiresAtMixin):
+class OAuthSession(UUIDPrimaryKeyMixin, Base, CreatedUpdatedAtMixin, ExpiresAtMixin):
     __tablename__ = "oauth_sessions"
     __lifetime_seconds = settings.OAUTH_SESSION_LIFETIME_SECONDS
 
-    id: Mapped[uuid.UUID] = mapped_column(GUID, primary_key=True, default=uuid.uuid4)
     token: Mapped[str] = mapped_column(
         String(length=255),
         default=secrets.token_urlsafe,

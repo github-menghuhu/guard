@@ -176,3 +176,7 @@ class Base(DeclarativeBase):
     def __init_subclass__(cls) -> None:
         cls.__tablename__ = get_prefixed_tablename(cls.__tablename__)
         super().__init_subclass__()
+
+
+class UUIDPrimaryKeyMixin:
+    id: Mapped[uuid.UUID] = mapped_column(GUID, primary_key=True, default=uuid.uuid4)

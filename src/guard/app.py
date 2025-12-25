@@ -6,7 +6,7 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
 from guard import __version__
-from guard.apps.auth.auth import router as auth_router
+from guard.apps.admin import admin_router
 from guard.core.config import settings
 from guard.middlewares import (
     RequestIDMiddleware,
@@ -39,7 +39,7 @@ app.add_middleware(
 )
 app.add_middleware(RequestIDMiddleware)
 
-app.include_router(auth_router)
+app.include_router(admin_router)
 
 register_exception_handlers(app=app, use_fallback_middleware=True)
 

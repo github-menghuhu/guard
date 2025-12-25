@@ -8,9 +8,10 @@ from .base import (
     ExpiresAtMixin,
     SoftDeleteMixin,
     UTCDateTime,
+    UUIDPrimaryKeyMixin,
     get_prefixed_tablename,
 )
-from .client import Client, ResponseTypes
+from .client import Client, GrantTypes, ResponseTypes, Scopes
 from .grant import Grant
 from .login_session import ACR, LoginSession
 from .oauth_account import OAuthAccount
@@ -31,8 +32,11 @@ __all__ = [
     "SoftDeleteMixin",
     "TABLE_PREFIX",
     "get_prefixed_tablename",
+    "UUIDPrimaryKeyMixin",
     "Client",
     "ResponseTypes",
+    "GrantTypes",
+    "Scopes",
     "User",
     "OAuthProvider",
     "OAuthAccount",

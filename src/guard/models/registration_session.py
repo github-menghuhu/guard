@@ -12,6 +12,7 @@ from guard.models.base import (
     Base,
     CreatedUpdatedAtMixin,
     ExpiresAtMixin,
+    UUIDPrimaryKeyMixin,
 )
 from guard.models.oauth_account import OAuthAccount
 
@@ -21,11 +22,12 @@ class RegistrationSessionFlow(StrEnum):
     OAUTH = "OAUTH"
 
 
-class RegistrationSession(Base, CreatedUpdatedAtMixin, ExpiresAtMixin):
+class RegistrationSession(
+    UUIDPrimaryKeyMixin, Base, CreatedUpdatedAtMixin, ExpiresAtMixin
+):
     __tablename__ = "registration_sessions"
     __lifetime_seconds = settings.REGISTRATION_SESSION_LIFETIME_SECONDS
 
-    id: Mapped[uuid.UUID] = mapped_column(GUID, primary_key=True, default=uuid.uuid4)
     token: Mapped[str] = mapped_column(
         String(length=255),
         default=secrets.token_urlsafe,

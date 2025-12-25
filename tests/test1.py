@@ -1,4 +1,8 @@
+from enum import StrEnum
 
-from cryptography.fernet import Fernet
-a = Fernet.generate_key()
-print(a.decode("utf-8"))
+class Scopes(StrEnum):
+    OPENID = "openid"
+
+for i in Scopes:
+    print(type( i))
+    print(i.value)

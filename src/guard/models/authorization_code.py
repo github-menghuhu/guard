@@ -12,16 +12,18 @@ from guard.models.base import (
     CreatedUpdatedAtMixin,
     ExpiresAtMixin,
     UTCDateTime,
+    UUIDPrimaryKeyMixin,
 )
 from guard.models.client import Client
 from guard.models.login_session import ACR
 from guard.models.user import User
 
 
-class AuthorizationCode(Base, CreatedUpdatedAtMixin, ExpiresAtMixin):
+class AuthorizationCode(
+    UUIDPrimaryKeyMixin, Base, CreatedUpdatedAtMixin, ExpiresAtMixin
+):
     __tablename__ = "authorization_codes"
 
-    id: Mapped[uuid.UUID] = mapped_column(GUID, primary_key=True, default=uuid.uuid4)
     code: Mapped[str] = mapped_column(
         String(length=255), nullable=False, index=True, unique=True
     )

@@ -9,15 +9,15 @@ from guard.models.base import (
     Base,
     CreatedUpdatedAtMixin,
     ExpiresAtMixin,
+    UUIDPrimaryKeyMixin,
 )
 from guard.models.user import User
 
 
-class SessionToken(Base, CreatedUpdatedAtMixin, ExpiresAtMixin):
+class SessionToken(UUIDPrimaryKeyMixin, Base, CreatedUpdatedAtMixin, ExpiresAtMixin):
     __tablename__ = "session_tokens"
     __lifetime_seconds__ = settings.SESSION_LIFETIME_SECONDS
 
-    id: Mapped[uuid.UUID] = mapped_column(GUID, primary_key=True, default=uuid.uuid4)
     token: Mapped[str] = mapped_column(
         String(length=255), nullable=False, index=True, unique=True
     )
