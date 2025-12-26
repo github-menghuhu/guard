@@ -23,7 +23,7 @@ class RegistrationSessionFlow(StrEnum):
 
 
 class RegistrationSession(
-    UUIDPrimaryKeyMixin, Base, CreatedUpdatedAtMixin, ExpiresAtMixin
+    UUIDPrimaryKeyMixin, CreatedUpdatedAtMixin, ExpiresAtMixin, Base
 ):
     __tablename__ = "registration_sessions"
     __lifetime_seconds = settings.REGISTRATION_SESSION_LIFETIME_SECONDS

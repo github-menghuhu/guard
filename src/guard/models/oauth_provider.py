@@ -9,7 +9,7 @@ from guard.models.base import (
 )
 
 
-class OAuthProvider(UUIDPrimaryKeyMixin, Base, CreatedUpdatedAtMixin):
+class OAuthProvider(UUIDPrimaryKeyMixin, CreatedUpdatedAtMixin, Base):
     __tablename__ = "oauth_providers"
 
     provider_name: Mapped[str] = mapped_column(String(length=255), nullable=False)

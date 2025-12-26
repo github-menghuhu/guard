@@ -9,7 +9,7 @@ from guard.models.base import (
 from guard.utils.random import generate_random_string
 
 
-class User(UUIDPrimaryKeyMixin, Base, CreatedUpdatedAtMixin):
+class User(UUIDPrimaryKeyMixin, CreatedUpdatedAtMixin, Base):
     __tablename__ = "users"
 
     name: Mapped[str] = mapped_column(

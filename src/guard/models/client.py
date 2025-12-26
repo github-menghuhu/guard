@@ -28,7 +28,7 @@ class Scopes(StrEnum):
     OPENID = "openid"
 
 
-class Client(UUIDPrimaryKeyMixin, Base, CreatedUpdatedAtMixin):
+class Client(UUIDPrimaryKeyMixin, CreatedUpdatedAtMixin, Base):
     __tablename__ = "clients"
 
     client_name: Mapped[str] = mapped_column(String(length=255), nullable=False)

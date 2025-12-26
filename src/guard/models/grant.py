@@ -14,7 +14,7 @@ from guard.models.client import Client
 from guard.models.user import User
 
 
-class Grant(UUIDPrimaryKeyMixin, Base, CreatedUpdatedAtMixin):
+class Grant(UUIDPrimaryKeyMixin, CreatedUpdatedAtMixin, Base):
     __tablename__ = "grants"
     __table_args__ = (UniqueConstraint("user_id", "client_id"),)
 

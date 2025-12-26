@@ -14,7 +14,7 @@ from guard.models.base import (
 from guard.models.user import User
 
 
-class SessionToken(UUIDPrimaryKeyMixin, Base, CreatedUpdatedAtMixin, ExpiresAtMixin):
+class SessionToken(UUIDPrimaryKeyMixin, CreatedUpdatedAtMixin, ExpiresAtMixin, Base):
     __tablename__ = "session_tokens"
     __lifetime_seconds__ = settings.SESSION_LIFETIME_SECONDS
 

@@ -25,7 +25,7 @@ class ACR(StrEnum):
     LEVEL_3 = "3"
 
 
-class LoginSession(UUIDPrimaryKeyMixin, Base, CreatedUpdatedAtMixin, ExpiresAtMixin):
+class LoginSession(UUIDPrimaryKeyMixin, CreatedUpdatedAtMixin, ExpiresAtMixin, Base):
     __tablename__ = "login_sessions"
     __lifetime_seconds = settings.LOGIN_SESSION_LIFETIME_SECONDS
 

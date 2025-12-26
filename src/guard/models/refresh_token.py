@@ -16,7 +16,7 @@ from guard.models.client import Client
 from guard.models.user import User
 
 
-class RefreshToken(UUIDPrimaryKeyMixin, Base, CreatedUpdatedAtMixin, ExpiresAtMixin):
+class RefreshToken(UUIDPrimaryKeyMixin, CreatedUpdatedAtMixin, ExpiresAtMixin, Base):
     __tablename__ = "refresh_tokens"
 
     token: Mapped[str] = mapped_column(

@@ -1,4 +1,4 @@
-from .base import BaseRepository
+from .base import BaseRepository, Paginate
 from .client import ClientRepository
 
-__all__ = ["BaseRepository", "ClientRepository"]
+__all__ = ["BaseRepository", "Paginate", "ClientRepository"]

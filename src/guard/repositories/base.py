@@ -1,13 +1,20 @@
-from typing import TypeVar
+from typing import TypedDict, TypeVar
 from uuid import UUID
 
-from sqlalchemy import select
+from sqlalchemy import func, over, select
 from sqlalchemy.engine import Result
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.orm import DeclarativeBase
 from sqlalchemy.sql import Select
 
 M = TypeVar("M", bound=DeclarativeBase)
+
+
+class Paginate[M](TypedDict):
+    total: int
+    page: int
+    size: int
+    items: list[M]
 
 
 class BaseRepository[M]:
@@ -19,8 +26,27 @@ class BaseRepository[M]:
     async def _execute(self, statement: Select) -> Result:
         return await self.session.execute(statement)
 
-    async def list(self) -> list[M]:
-        pass
+    async def _paginate(
+        self,
+        statement: Select,
+        page: int = 1,
+        size: int = 10,
+    ) -> Paginate:
+        statement = statement.offset((page - 1) * size).limit(size)
+        statement = statement.add_columns(over(func.count()))
+
+        results: list[M] = []
+        count = 0
+        for row in await self._execute(statement):
+            results.append(row[0])
+            count = row[1]
+
+        return {
+            "total": count,
+            "page": page,
+            "size": size,
+            "items": results,
+        }
 
     async def get(self, id_: UUID) -> M | None:
         result = await self._execute(select(self._model).where(self._model.id == id_))  # type: ignore[attr-defined]
@@ -32,9 +58,11 @@ class BaseRepository[M]:
         await self.session.refresh(object_)
         return object_
 
-    async def update(self, object_: M) -> None:
+    async def update(self, object_: M) -> M:
         self.session.add(object_)
         await self.session.commit()
+        await self.session.refresh(object_)
+        return object_
 
     async def delete(self, object_: M) -> None:
         await self.session.delete(object_)

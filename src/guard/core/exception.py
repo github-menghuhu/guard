@@ -1,7 +1,7 @@
 from api_exception import BaseExceptionCode
 
 
-class CustomExceptionCode(BaseExceptionCode):
+class ExceptionCode(BaseExceptionCode):
     """
     数据库错误
     """
@@ -11,4 +11,15 @@ class CustomExceptionCode(BaseExceptionCode):
         "DB-001",
         "Database Connection Timeout.",
         "Database connection timed out. Please check network connectivity and database status.",
+    )
+
+    """
+    校验错误
+    """
+
+    # 资源不存在
+    RESOURCE_NOT_FOUND = (
+        "RES-001",
+        "Resource Not Found.",
+        "The requested resource does not exist.",
     )

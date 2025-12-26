@@ -17,7 +17,7 @@ from guard.models.oauth_provider import OAuthProvider
 from guard.models.user import User
 
 
-class OAuthAccount(UUIDPrimaryKeyMixin, Base, CreatedUpdatedAtMixin):
+class OAuthAccount(UUIDPrimaryKeyMixin, CreatedUpdatedAtMixin, Base):
     __tablename__ = "oauth_accounts"
     __table_args__ = (
         UniqueConstraint("oauth_provider_id", "user_id"),

@@ -5,7 +5,7 @@ from fastapi import status
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from guard.core.db import async_session_maker
-from guard.core.exception import CustomExceptionCode
+from guard.core.exception import ExceptionCode
 
 
 async def get_async_session() -> AsyncGenerator[AsyncSession, None]:
@@ -15,5 +15,5 @@ async def get_async_session() -> AsyncGenerator[AsyncSession, None]:
     except ConnectionRefusedError:
         raise APIException(
             http_status_code=status.HTTP_503_SERVICE_UNAVAILABLE,
-            error_code=CustomExceptionCode.DB_CONNECTION_TIMEOUT,
+            error_code=ExceptionCode.DB_CONNECTION_TIMEOUT,
         )

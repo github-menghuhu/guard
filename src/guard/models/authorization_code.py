@@ -20,7 +20,7 @@ from guard.models.user import User
 
 
 class AuthorizationCode(
-    UUIDPrimaryKeyMixin, Base, CreatedUpdatedAtMixin, ExpiresAtMixin
+    UUIDPrimaryKeyMixin, CreatedUpdatedAtMixin, ExpiresAtMixin, Base
 ):
     __tablename__ = "authorization_codes"
 

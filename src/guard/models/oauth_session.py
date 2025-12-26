@@ -16,7 +16,7 @@ from guard.models.oauth_account import OAuthAccount
 from guard.models.oauth_provider import OAuthProvider
 
 
-class OAuthSession(UUIDPrimaryKeyMixin, Base, CreatedUpdatedAtMixin, ExpiresAtMixin):
+class OAuthSession(UUIDPrimaryKeyMixin, CreatedUpdatedAtMixin, ExpiresAtMixin, Base):
     __tablename__ = "oauth_sessions"
     __lifetime_seconds = settings.OAUTH_SESSION_LIFETIME_SECONDS
 
