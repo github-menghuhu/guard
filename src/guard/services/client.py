@@ -13,6 +13,15 @@ class ClientService:
     def __init__(self, client_repository: ClientRepository) -> None:
         self.client_repository = client_repository
 
+    async def validate_client_id(self, id_: UUID) -> Client:
+        client = await self.client_repository.get(id_)
+        if client is None:
+            raise APIException(
+                http_status_code=status.HTTP_404_NOT_FOUND,
+                error_code=ExceptionCode.NOT_FOUND,
+            )
+        return client
+
     async def create(
         self,
         client_name: str,
@@ -67,25 +76,20 @@ class ClientService:
         items = await self.client_repository.list_paginate(name, creator, page, size)
         return ListClient.model_validate(items)
 
-    async def get(self, id_: UUID) -> GetClient | None:
-        client = await self.client_repository.get(id_)
-        return GetClient.model_validate(client) if client else None
+    async def get(self, id_: UUID) -> GetClient:
+        client = await self.validate_client_id(id_)
+        return GetClient.model_validate(client)
 
     async def update(
         self,
         id_: UUID,
-        name: str,
-        redirect_uris: list[str],
-        authorization_code_lifetime_seconds: int,
-        access_id_token_lifetime_seconds: int,
-        refresh_token_lifetime_seconds: int,
+        name: str | None = None,
+        redirect_uris: list[str] | None = None,
+        authorization_code_lifetime_seconds: int | None = None,
+        access_id_token_lifetime_seconds: int | None = None,
+        refresh_token_lifetime_seconds: int | None = None,
     ) -> UpdateClient:
-        client = await self.client_repository.get(id_)
-        if client is None:
-            raise APIException(
-                http_status_code=status.HTTP_400_BAD_REQUEST,
-                error_code=ExceptionCode.RESOURCE_NOT_FOUND,
-            )
+        client = await self.validate_client_id(id_)
 
         if name:
             client.client_name = name
@@ -108,10 +112,5 @@ class ClientService:
         return UpdateClient.model_validate(client)
 
     async def delete(self, id_: UUID) -> None:
-        client = await self.client_repository.get(id_)
-        if client is None:
-            raise APIException(
-                http_status_code=status.HTTP_400_BAD_REQUEST,
-                error_code=ExceptionCode.RESOURCE_NOT_FOUND,
-            )
+        client = await self.validate_client_id(id_)
         await self.client_repository.delete(client)

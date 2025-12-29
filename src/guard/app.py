@@ -1,7 +1,7 @@
 from collections.abc import AsyncGenerator
 from contextlib import asynccontextmanager
 
-from api_exception import register_exception_handlers
+from api_exception import APIResponse, register_exception_handlers
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
@@ -28,7 +28,12 @@ async def lifespan(app: FastAPI) -> AsyncGenerator[None]:
     logger.info("Guard Server stopped")
 
 
-app = FastAPI(title="Fief Authentication API", lifespan=lifespan, version=__version__)
+app = FastAPI(
+    title="Fief Authentication API",
+    lifespan=lifespan,
+    version=__version__,
+    responses=APIResponse.default(),  # type: ignore[arg-type]
+)
 
 app.add_middleware(
     CORSMiddleware,
@@ -41,7 +46,12 @@ app.add_middleware(RequestIDMiddleware)
 
 app.include_router(admin_router)
 
-register_exception_handlers(app=app, use_fallback_middleware=True)
+register_exception_handlers(
+    app=app,
+    log_traceback=False,
+    log_traceback_unhandled_exception=True,
+    use_fallback_middleware=True,
+)
 
 
 @app.get("/healthz")

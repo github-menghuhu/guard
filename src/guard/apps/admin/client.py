@@ -19,24 +19,19 @@ from guard.services import ClientService
 router = APIRouter(prefix="/client")
 
 
-@router.post("/", name="client:create")
+@router.post(
+    "/",
+    name="client:create",
+    response_model=ResponseModel[CreateClient],
+)
 async def create_client(
     create_params: CreateClientParams,
     client_service: Annotated[ClientService, Depends(get_client_service)],
 ):
-    # client = await client_service.create(
-    #     client_name="test-client",
-    #     creator="mhh123",
-    #     redirect_uris=[
-    #         "http://localhost:8000/admin/auth/callback",
-    #         "https://localhost:8000/admin/auth/callback",
-    #     ],
-    # )
-
     client = await client_service.create(
         client_name=create_params.client_name,
         redirect_uris=create_params.redirect_uris,
-        creator=create_params.creator,
+        creator="mhh1",
     )
 
     return ResponseModel[CreateClient](
