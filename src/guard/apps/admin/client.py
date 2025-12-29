@@ -19,11 +19,7 @@ from guard.services import ClientService
 router = APIRouter(prefix="/client")
 
 
-@router.post(
-    "/",
-    name="client:create",
-    response_model=ResponseModel[CreateClient],
-)
+@router.post("/", name="client:create", response_model=ResponseModel[CreateClient])
 async def create_client(
     create_params: CreateClientParams,
     client_service: Annotated[ClientService, Depends(get_client_service)],
@@ -40,7 +36,7 @@ async def create_client(
     )
 
 
-@router.get("/", name="client:list")
+@router.get("/", name="client:list", response_model=ResponseModel[ListClient])
 async def list_client(
     paginate: Annotated[PaginationParams, Depends()],
     client_service: Annotated[ClientService, Depends(get_client_service)],
@@ -56,7 +52,7 @@ async def list_client(
     )
 
 
-@router.get("/{id}", name="client:get")
+@router.get("/{id}", name="client:get", response_model=ResponseModel[GetClient])
 async def get_client(
     id_: Annotated[UUID, Path(alias="id")],
     client_service: Annotated[ClientService, Depends(get_client_service)],
@@ -68,7 +64,7 @@ async def get_client(
     )
 
 
-@router.patch("/{id}", name="client:update")
+@router.patch("/{id}", name="client:update", response_model=ResponseModel[GetClient])
 async def update_client(
     id_: Annotated[UUID, Path(alias="id")],
     update_params: UpdateClientParams,
@@ -88,7 +84,7 @@ async def update_client(
     )
 
 
-@router.delete("/{id}", name="client:delete")
+@router.delete("/{id}", name="client:delete", response_model=ResponseModel)
 async def delete_client(
     id_: Annotated[UUID, Path(alias="id")],
     client_service: Annotated[ClientService, Depends(get_client_service)],
