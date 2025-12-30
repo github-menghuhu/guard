@@ -19,7 +19,8 @@ dependencies = [
     "mypy (>=1.19.0,<2.0.0)",
     "ruff (>=0.14.8,<0.15.0)",
     "cryptography (>=46.0.3,<47.0.0)",
-    "apiexception (>=0.2.1,<0.3.0)"
+    "apiexception (>=0.2.1,<0.3.0)",
+    "pwdlib[argon2] (>=0.3.0,<0.4.0)"
 ]
 
 [tool.poetry]

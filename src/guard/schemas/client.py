@@ -2,7 +2,7 @@ from datetime import datetime
 from uuid import UUID
 
 from guard.models import GrantTypes, ResponseTypes, Scopes
-from guard.schemas import BaseModel
+from guard.schemas import BaseModel, Paginate
 
 
 class CreateClientParams(BaseModel):
@@ -24,7 +24,7 @@ class UpdateClientParams(BaseModel):
     refresh_token_lifetime_seconds: int | None = None
 
 
-class ClientBase(BaseModel):
+class _ClientBase(BaseModel):
     id: UUID
     client_id: str
     client_name: str
@@ -40,18 +40,15 @@ class ClientBase(BaseModel):
     refresh_token_lifetime_seconds: int
 
 
-class CreateClient(ClientBase):
+class CreateClient(_ClientBase):
     pass
 
 
-class GetClient(ClientBase):
+class GetClient(_ClientBase):
     pass
 
 
-class ListClient(BaseModel):
-    total: int
-    page: int
-    size: int
+class ListClient(Paginate):
     items: list[GetClient]
 
 

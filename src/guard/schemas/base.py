@@ -24,7 +24,7 @@ class Paginate[M](BaseModel):
     total: int = 0
     page: int = 1
     size: int = 10
-    data: list[M]
+    items: list[M]
 
 
 class PaginationParams:

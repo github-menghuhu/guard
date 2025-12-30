@@ -30,6 +30,13 @@ class ExceptionCode(BaseExceptionCode):
         "The requested resource could not be found.",
     )
 
+    # 资源已存在 http 409
+    CONFLICT_ERROR = (
+        "RES-002",
+        "Conflict.",
+        "The requested resource already exists or the action conflicts with the current state.",
+    )
+
     # 输入验证错误 http 422
     VALIDATION_ERROR = (
         "VAL-001",
