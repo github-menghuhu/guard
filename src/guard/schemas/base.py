@@ -20,11 +20,11 @@ class ApiResponseDefaultMessage(StrEnum):
     query_success = "Query Success."
 
 
-class Paginate[M](BaseModel):
+class Paginate[I](BaseModel):
     total: int = 0
     page: int = 1
     size: int = 10
-    items: list[M]
+    items: list[I]
 
 
 class PaginationParams:

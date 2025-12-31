@@ -1,23 +1,22 @@
-from typing import TypedDict, TypeVar
+from typing import TypedDict
 from uuid import UUID
 
 from sqlalchemy import func, over, select
 from sqlalchemy.engine import Result
 from sqlalchemy.ext.asyncio import AsyncSession
-from sqlalchemy.orm import DeclarativeBase
 from sqlalchemy.sql import Select
 
-M = TypeVar("M", bound=DeclarativeBase)
+from guard.models.base import Base
 
 
-class Paginate[M](TypedDict):
+class Paginate[I](TypedDict):
     total: int
     page: int
     size: int
-    items: list[M]
+    items: list[I]
 
 
-class BaseRepository[M]:
+class BaseRepository[M: Base]:
     _model: type[M]
 
     def __init__(self, session: AsyncSession) -> None:

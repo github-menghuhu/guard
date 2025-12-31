@@ -1,25 +1,25 @@
 from sqlalchemy import select
 
-from guard.models import Client
+from guard.models import Permission
 from guard.repositories import BaseRepository, Paginate
 
 
-class ClientRepository(BaseRepository[Client]):
-    _model = Client
+class PermissionRepository(BaseRepository[Permission]):
+    _model = Permission
 
     async def list_paginate(
         self,
         name: str | None = None,
-        creator: str | None = None,
+        code: str | None = None,
         page: int = 1,
         size: int = 10,
-    ) -> Paginate[Client]:
+    ) -> Paginate[Permission]:
         statement = select(self._model).order_by(self._model.created_at.desc())
 
         if name:
-            statement = statement.where(self._model.client_name.like(f"%{name}%"))
+            statement = statement.where(self._model.name.like(f"%{name}%"))
 
-        if creator:
-            statement = statement.where(self._model.creator.like(f"%{creator}%"))
+        if code:
+            statement = statement.where(self._model.code.like(f"%{code}%"))
 
         return await self._paginate(statement, page, size)

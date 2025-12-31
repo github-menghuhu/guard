@@ -4,7 +4,12 @@ from fastapi import Depends
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from guard.dependencies import get_async_session
-from guard.repositories import ClientRepository, UserRepository
+from guard.repositories import (
+    ClientRepository,
+    PermissionRepository,
+    RoleRepository,
+    UserRepository,
+)
 
 """
 
@@ -23,3 +28,15 @@ async def get_user_repository(
     db: Annotated[AsyncSession, Depends(get_async_session)],
 ) -> UserRepository:
     return UserRepository(db)
+
+
+async def get_role_repository(
+    db: Annotated[AsyncSession, Depends(get_async_session)],
+) -> RoleRepository:
+    return RoleRepository(db)
+
+
+async def get_permission_repository(
+    db: Annotated[AsyncSession, Depends(get_async_session)],
+) -> PermissionRepository:
+    return PermissionRepository(db)

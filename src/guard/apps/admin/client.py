@@ -40,8 +40,8 @@ async def create_client(
 async def list_client(
     paginate: Annotated[PaginationParams, Depends()],
     client_service: Annotated[ClientService, Depends(get_client_service)],
-    name: Annotated[str | None, Query(max_length=200)] = None,
-    creator: Annotated[str | None, Query(max_length=200)] = None,
+    name: Annotated[str | None, Query(min_length=1, max_length=200)] = None,
+    creator: Annotated[str | None, Query(min_length=1, max_length=200)] = None,
 ):
     clients = await client_service.list_paginate(
         name, creator, paginate.page, paginate.size
@@ -72,7 +72,7 @@ async def update_client(
 ):
     client = await client_service.update(
         id_,
-        update_params.name,
+        update_params.client_name,
         update_params.redirect_uris,
         update_params.authorization_code_lifetime_seconds,
         update_params.access_id_token_lifetime_seconds,

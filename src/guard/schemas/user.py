@@ -7,12 +7,6 @@ from pydantic import AfterValidator, EmailStr, Field
 from guard.schemas import BaseModel, Paginate
 from guard.validators.password import validate_login_password
 
-# class CreateUser(BaseModel):
-#     name: str
-#     phone: str
-#     email: str
-#     password: str
-
 PasswordStr = Annotated[
     str, Field(min_length=8, max_length=30), AfterValidator(validate_login_password)
 ]

@@ -1,27 +1,34 @@
 from datetime import datetime
+from typing import Annotated
 from uuid import UUID
+
+from pydantic import Field
 
 from guard.models import GrantTypes, ResponseTypes, Scopes
 from guard.schemas import BaseModel, Paginate
 
 
 class CreateClientParams(BaseModel):
-    client_name: str
-    redirect_uris: list[str]
-    grant_types: list[GrantTypes] = [GrantTypes.AUTHORIZATION_CODE]
-    response_types: list[ResponseTypes] = [ResponseTypes.CODE]
-    scopes: list[Scopes] = [Scopes.OPENID]
+    client_name: Annotated[str, Field(min_length=1, max_length=255)]
+    redirect_uris: Annotated[list[str], Field(min_length=1)]
+    grant_types: Annotated[list[GrantTypes], Field(min_length=1)] = [
+        GrantTypes.AUTHORIZATION_CODE
+    ]
+    response_types: Annotated[list[ResponseTypes], Field(min_length=1)] = [
+        ResponseTypes.CODE
+    ]
+    scopes: Annotated[list[Scopes], Field(min_length=1)] = [Scopes.OPENID]
 
 
 class UpdateClientParams(BaseModel):
-    name: str | None = None
-    redirect_uris: list[str] | None = None
-    grant_types: list[GrantTypes] | None = None
-    response_types: list[ResponseTypes] | None = None
-    scopes: list[Scopes] | None = None
-    authorization_code_lifetime_seconds: int | None = None
-    access_id_token_lifetime_seconds: int | None = None
-    refresh_token_lifetime_seconds: int | None = None
+    client_name: Annotated[str | None, Field(min_length=1, max_length=255)] = None
+    redirect_uris: Annotated[list[str] | None, Field(min_length=1)] = None
+    grant_types: Annotated[list[GrantTypes] | None, Field(min_length=1)] = None
+    response_types: Annotated[list[ResponseTypes] | None, Field(min_length=1)] = None
+    scopes: Annotated[list[Scopes] | None, Field(min_length=1)] = None
+    authorization_code_lifetime_seconds: Annotated[int | None, Field(ge=60)] = None
+    access_id_token_lifetime_seconds: Annotated[int | None, Field(ge=60)] = None
+    refresh_token_lifetime_seconds: Annotated[int | None, Field(ge=120)] = None
 
 
 class _ClientBase(BaseModel):

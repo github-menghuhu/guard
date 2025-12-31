@@ -41,7 +41,7 @@ async def list_user(
     paginate: Annotated[PaginationParams, Depends()],
     user_service: Annotated[UserService, Depends(get_user_service)],
     name: Annotated[str | None, Query(min_length=1, max_length=200)] = None,
-    email: str | None = None,
+    email: Annotated[str | None, Query(min_length=1, max_length=300)] = None,
     phone: Annotated[str | None, Query(min_length=3, max_length=11)] = None,
 ):
     users = await user_service.list_paginate(

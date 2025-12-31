@@ -7,6 +7,22 @@ from .client import (
     UpdateClient,
     UpdateClientParams,
 )
+from .permission import (
+    CreatePermission,
+    CreatePermissionParams,
+    GetPermission,
+    ListPermission,
+    UpdatePermission,
+    UpdatePermissionParams,
+)
+from .role import (
+    CreateRole,
+    CreateRoleParams,
+    GetRole,
+    ListRole,
+    UpdateRole,
+    UpdateRoleParams,
+)
 from .user import (
     CreateUser,
     CreateUserParams,
@@ -35,4 +51,16 @@ __all__ = [
     "GetUser",
     "ListUser",
     "UpdateUser",
+    "CreateRoleParams",
+    "UpdateRoleParams",
+    "CreateRole",
+    "GetRole",
+    "ListRole",
+    "UpdateRole",
+    "CreatePermissionParams",
+    "UpdatePermissionParams",
+    "CreatePermission",
+    "GetPermission",
+    "ListPermission",
+    "UpdatePermission",
 ]

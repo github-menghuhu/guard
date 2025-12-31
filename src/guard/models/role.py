@@ -5,10 +5,9 @@ from guard.models.base import (
     Base,
     CreatedUpdatedAtMixin,
     UUIDPrimaryKeyMixin,
-    get_prefixed_tablename
+    get_prefixed_tablename,
 )
 from guard.models.permission import Permission
-from guard.models.role_permission import RolePermission
 
 
 class Role(UUIDPrimaryKeyMixin, CreatedUpdatedAtMixin, Base):

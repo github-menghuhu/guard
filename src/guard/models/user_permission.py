@@ -15,5 +15,8 @@ class UserPermission(Base):
         GUID, ForeignKey(User.id, ondelete="CASCADE"), nullable=False, primary_key=True
     )
     permission_id: Mapped[UUID] = mapped_column(
-        GUID, ForeignKey(Permission.id, ondelete="CASCADE"), nullable=False, primary_key=True
+        GUID,
+        ForeignKey(Permission.id, ondelete="CASCADE"),
+        nullable=False,
+        primary_key=True,
     )
