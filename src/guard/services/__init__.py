@@ -3,6 +3,7 @@ from .client import ClientService
 from .permission import PermissionService
 from .role import RoleService
 from .user import UserService
+from .oauth_provider import OAuthProviderService
 
 __all__ = [
     "BaseService",
@@ -10,4 +11,5 @@ __all__ = [
     "UserService",
     "RoleService",
     "PermissionService",
+    "OAuthProviderService",
 ]

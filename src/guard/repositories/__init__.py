@@ -3,6 +3,7 @@ from .client import ClientRepository
 from .permission import PermissionRepository
 from .role import RoleRepository
 from .user import UserRepository
+from .oauth_provider import OAuthProviderRepository
 
 __all__ = [
     "BaseRepository",
@@ -11,4 +12,5 @@ __all__ = [
     "UserRepository",
     "RoleRepository",
     "PermissionRepository",
+    "OAuthProviderRepository",
 ]

@@ -7,6 +7,7 @@ from fastapi.middleware.cors import CORSMiddleware
 
 from guard import __version__
 from guard.apps.admin import admin_router
+from guard.apps.auth import auth_router
 from guard.core.config import settings
 from guard.middlewares import (
     RequestIDMiddleware,
@@ -29,7 +30,7 @@ async def lifespan(app: FastAPI) -> AsyncGenerator[None]:
 
 
 app = FastAPI(
-    title="Fief Authentication API",
+    title="Guard Authentication API",
     lifespan=lifespan,
     version=__version__,
     responses=APIResponse.default(),  # type: ignore[arg-type]
@@ -44,6 +45,7 @@ app.add_middleware(
 )
 app.add_middleware(RequestIDMiddleware)
 
+app.include_router(auth_router)
 app.include_router(admin_router)
 
 register_exception_handlers(

@@ -9,26 +9,26 @@ from guard.schemas import BaseModel, Paginate
 
 
 class CreateClientParams(BaseModel):
-    client_name: Annotated[str, Field(min_length=1, max_length=255)]
-    redirect_uris: Annotated[list[str], Field(min_length=1)]
-    grant_types: Annotated[list[GrantTypes], Field(min_length=1)] = [
+    client_name: Annotated[str, Field(min_length=1, max_length=255, description="名称")]
+    redirect_uris: Annotated[list[str], Field(min_length=1, description="回调地址列表")]
+    grant_types: Annotated[list[GrantTypes], Field(min_length=1, description="授权类型列表")] = [
         GrantTypes.AUTHORIZATION_CODE
     ]
-    response_types: Annotated[list[ResponseTypes], Field(min_length=1)] = [
+    response_types: Annotated[list[ResponseTypes], Field(min_length=1, description="响应类型列表")] = [
         ResponseTypes.CODE
     ]
-    scopes: Annotated[list[Scopes], Field(min_length=1)] = [Scopes.OPENID]
+    scopes: Annotated[list[Scopes], Field(min_length=1, description="权限列表")] = [Scopes.OPENID]
 
 
 class UpdateClientParams(BaseModel):
-    client_name: Annotated[str | None, Field(min_length=1, max_length=255)] = None
-    redirect_uris: Annotated[list[str] | None, Field(min_length=1)] = None
-    grant_types: Annotated[list[GrantTypes] | None, Field(min_length=1)] = None
-    response_types: Annotated[list[ResponseTypes] | None, Field(min_length=1)] = None
-    scopes: Annotated[list[Scopes] | None, Field(min_length=1)] = None
-    authorization_code_lifetime_seconds: Annotated[int | None, Field(ge=60)] = None
-    access_id_token_lifetime_seconds: Annotated[int | None, Field(ge=60)] = None
-    refresh_token_lifetime_seconds: Annotated[int | None, Field(ge=120)] = None
+    client_name: Annotated[str | None, Field(min_length=1, max_length=255, description="名称")] = None
+    redirect_uris: Annotated[list[str] | None, Field(min_length=1, description="回调地址列表")] = None
+    grant_types: Annotated[list[GrantTypes] | None, Field(min_length=1, description="授权类型列表")] = None
+    response_types: Annotated[list[ResponseTypes] | None, Field(min_length=1, description="响应类型列表")] = None
+    scopes: Annotated[list[Scopes] | None, Field(min_length=1, description="权限列表")] = None
+    authorization_code_lifetime_seconds: Annotated[int | None, Field(ge=60, description="授权码有效期,单位秒")] = None
+    access_id_token_lifetime_seconds: Annotated[int | None, Field(ge=60, description="访问令牌有效期,单位秒")] = None
+    refresh_token_lifetime_seconds: Annotated[int | None, Field(ge=120, description="刷新令牌有效期,单位秒")] = None
 
 
 class _ClientBase(BaseModel):

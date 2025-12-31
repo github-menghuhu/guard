@@ -9,6 +9,7 @@ from guard.repositories import (
     PermissionRepository,
     RoleRepository,
     UserRepository,
+    OAuthProviderRepository,
 )
 
 """
@@ -40,3 +41,8 @@ async def get_permission_repository(
     db: Annotated[AsyncSession, Depends(get_async_session)],
 ) -> PermissionRepository:
     return PermissionRepository(db)
+
+async def get_oauth_provider_repository(
+    db: Annotated[AsyncSession, Depends(get_async_session)],
+) -> OAuthProviderRepository:
+    return OAuthProviderRepository(db)

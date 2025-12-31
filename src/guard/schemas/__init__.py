@@ -32,6 +32,14 @@ from .user import (
     UpdateUser,
     UpdateUserParams,
 )
+from .oauth_provider import (
+    CreateOAuthProvider,
+    CreateOAuthProviderParams,
+    GetOAuthProvider,
+    ListOAuthProvider,
+    UpdateOAuthProvider,
+    UpdateOAuthProviderParams,
+)
 
 __all__ = [
     "BaseModel",
@@ -63,4 +71,10 @@ __all__ = [
     "GetPermission",
     "ListPermission",
     "UpdatePermission",
+    "CreateOAuthProviderParams",
+    "UpdateOAuthProviderParams",
+    "CreateOAuthProvider",
+    "GetOAuthProvider",
+    "ListOAuthProvider",
+    "UpdateOAuthProvider",
 ]

@@ -8,14 +8,16 @@ from guard.dependencies import (
     get_permission_repository,
     get_role_repository,
     get_user_repository,
+    get_oauth_provider_repository,
 )
 from guard.repositories import (
     ClientRepository,
     PermissionRepository,
     RoleRepository,
     UserRepository,
+    OAuthProviderRepository,
 )
-from guard.services import ClientService, PermissionService, RoleService, UserService
+from guard.services import ClientService, PermissionService, RoleService, UserService, OAuthProviderService
 
 """
 
@@ -48,3 +50,10 @@ async def get_permission_service(
     ],
 ) -> PermissionService:
     return PermissionService(permission_repository)
+
+async def get_oauth_provider_service(
+    oauth_provider_repository: Annotated[
+        OAuthProviderRepository, Depends(get_oauth_provider_repository)
+    ],
+) -> OAuthProviderService:
+    return OAuthProviderService(oauth_provider_repository)

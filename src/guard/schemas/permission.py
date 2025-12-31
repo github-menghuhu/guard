@@ -6,20 +6,15 @@ from pydantic import Field
 
 from guard.schemas import BaseModel, Paginate
 
-_CreatePermissionStr = Annotated[str, Field(min_length=1, max_length=200)]
-
 
 class CreatePermissionParams(BaseModel):
-    name: _CreatePermissionStr
-    code: _CreatePermissionStr
-
-
-_UpdatePermissionStr = Annotated[str | None, Field(min_length=1, max_length=200)]
+    name: Annotated[str, Field(min_length=1, max_length=200, description="权限名称")]
+    code: Annotated[str, Field(min_length=1, max_length=200, description="权限标识")]
 
 
 class UpdatePermissionParams(BaseModel):
-    name: _UpdatePermissionStr = None
-    code: _UpdatePermissionStr = None
+    name: Annotated[str | None, Field(min_length=1, max_length=200, description="权限名称")] = None
+    code: Annotated[str | None, Field(min_length=1, max_length=200, description="权限标识")] = None
 
 
 class _PermissionBase(BaseModel):

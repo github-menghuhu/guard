@@ -28,6 +28,17 @@ class Scopes(StrEnum):
     OPENID = "openid"
 
 
+class ResponseMode(StrEnum):
+    QUERY = "query"
+    FRAGMENT = "fragment"
+
+
+class Prompt(StrEnum):
+    NONE = "none"
+    LOGIN = "login"
+    CONSENT = "consent"
+
+
 class Client(UUIDPrimaryKeyMixin, CreatedUpdatedAtMixin, Base):
     __tablename__ = "clients"
 

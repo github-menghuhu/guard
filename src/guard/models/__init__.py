@@ -11,7 +11,7 @@ from .base import (
     UUIDPrimaryKeyMixin,
     get_prefixed_tablename,
 )
-from .client import Client, GrantTypes, ResponseTypes, Scopes
+from .client import Client, GrantTypes, ResponseTypes, Scopes, ResponseMode, Prompt
 from .grant import Grant
 from .login_session import ACR, LoginSession
 from .oauth_account import OAuthAccount
@@ -42,6 +42,8 @@ __all__ = [
     "ResponseTypes",
     "GrantTypes",
     "Scopes",
+    "ResponseMode",
+    "Prompt",
     "User",
     "OAuthProvider",
     "OAuthAccount",

@@ -8,18 +8,18 @@ from guard.schemas import BaseModel, Paginate
 from guard.validators.password import validate_login_password
 
 PasswordStr = Annotated[
-    str, Field(min_length=8, max_length=30), AfterValidator(validate_login_password)
+    str, Field(min_length=8, max_length=30, description="登录密码"), AfterValidator(validate_login_password)
 ]
 
 
 class CreateUserParams(BaseModel):
-    email: EmailStr
+    email: Annotated[EmailStr, Field(description="用户邮箱")]
     password: PasswordStr
 
 
 class UpdateUserParams(BaseModel):
-    name: Annotated[str | None, Field(min_length=2, max_length=10)] = None
-    is_active: bool | None = None
+    name: Annotated[str | None, Field(min_length=2, max_length=10, description="用户名")] = None
+    is_active: Annotated[bool | None, Field(description="用户激活状态")] = None
 
 
 class _UserBase(BaseModel):
