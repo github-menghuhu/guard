@@ -13,7 +13,9 @@ class CreateRoleParams(BaseModel):
 
 
 class UpdateRoleParams(BaseModel):
-    name: Annotated[str | None, Field(min_length=1, max_length=200, description="角色名称")] = None
+    name: Annotated[
+        str | None, Field(min_length=1, max_length=200, description="角色名称")
+    ] = None
     default: Annotated[bool | None, Field(description="是否为基础用户默认角色")] = None
 
 

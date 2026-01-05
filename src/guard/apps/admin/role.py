@@ -19,7 +19,12 @@ from guard.services import RoleService
 router = APIRouter(prefix="/role")
 
 
-@router.post("/", name="role:create", response_model=ResponseModel[CreateRole])
+@router.post(
+    "/",
+    name="role:create",
+    response_model=ResponseModel[CreateRole],
+    description="创建角色",
+)
 async def create_role(
     create_params: CreateRoleParams,
     role_service: Annotated[RoleService, Depends(get_role_service)],
@@ -31,12 +36,20 @@ async def create_role(
     )
 
 
-@router.get("/", name="role:list", response_model=ResponseModel[ListRole])
+@router.get(
+    "/",
+    name="role:list",
+    response_model=ResponseModel[ListRole],
+    description="查询角色列表",
+)
 async def list_role(
     paginate: Annotated[PaginationParams, Depends()],
     role_service: Annotated[RoleService, Depends(get_role_service)],
-    name: Annotated[str | None, Query(min_length=1, max_length=200)] = None,
-    default: bool | None = None,
+    name: Annotated[
+        str | None,
+        Query(min_length=1, max_length=200, description="角色名称，支持模糊匹配"),
+    ] = None,
+    default: Annotated[bool | None, Query(description="是否为基础用户默认角色")] = None,
 ):
     roles = await role_service.list_paginate(
         name, default, paginate.page, paginate.size
@@ -47,9 +60,14 @@ async def list_role(
     )
 
 
-@router.get("/{id}", name="role:get", response_model=ResponseModel[GetRole])
+@router.get(
+    "/{id}",
+    name="role:get",
+    response_model=ResponseModel[GetRole],
+    description="查询角色详情",
+)
 async def get_role(
-    id_: Annotated[UUID, Path(alias="id")],
+    id_: Annotated[UUID, Path(alias="id", description="角色ID")],
     role_service: Annotated[RoleService, Depends(get_role_service)],
 ):
     role = await role_service.get(id_)
@@ -59,9 +77,14 @@ async def get_role(
     )
 
 
-@router.patch("/{id}", name="role:update", response_model=ResponseModel[GetRole])
+@router.patch(
+    "/{id}",
+    name="role:update",
+    response_model=ResponseModel[GetRole],
+    description="更新角色信息",
+)
 async def update_role(
-    id_: Annotated[UUID, Path(alias="id")],
+    id_: Annotated[UUID, Path(alias="id", description="角色ID")],
     update_params: UpdateRoleParams,
     role_service: Annotated[RoleService, Depends(get_role_service)],
 ):
@@ -72,9 +95,11 @@ async def update_role(
     )
 
 
-@router.delete("/{id}", name="role:delete", response_model=ResponseModel)
+@router.delete(
+    "/{id}", name="role:delete", response_model=ResponseModel, description="删除角色"
+)
 async def delete_role(
-    id_: Annotated[UUID, Path(alias="id")],
+    id_: Annotated[UUID, Path(alias="id", description="角色ID")],
     role_service: Annotated[RoleService, Depends(get_role_service)],
 ):
     await role_service.delete(id_)

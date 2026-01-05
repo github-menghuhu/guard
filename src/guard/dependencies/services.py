@@ -5,19 +5,25 @@ from fastapi import Depends
 from guard.core.crypto import password_hasher
 from guard.dependencies import (
     get_client_repository,
+    get_oauth_provider_repository,
     get_permission_repository,
     get_role_repository,
     get_user_repository,
-    get_oauth_provider_repository,
 )
 from guard.repositories import (
     ClientRepository,
+    OAuthProviderRepository,
     PermissionRepository,
     RoleRepository,
     UserRepository,
-    OAuthProviderRepository,
 )
-from guard.services import ClientService, PermissionService, RoleService, UserService, OAuthProviderService
+from guard.services import (
+    ClientService,
+    OAuthProviderService,
+    PermissionService,
+    RoleService,
+    UserService,
+)
 
 """
 
@@ -50,6 +56,7 @@ async def get_permission_service(
     ],
 ) -> PermissionService:
     return PermissionService(permission_repository)
+
 
 async def get_oauth_provider_service(
     oauth_provider_repository: Annotated[

@@ -1,10 +1,10 @@
 from fastapi import APIRouter
 
 from .client import router as client_router
+from .oauth_provider import router as oauth_provider_router
 from .permission import router as permission_router
 from .role import router as role_router
 from .user import router as user_router
-from .oauth_provider import router as oauth_provider_router
 
 admin_router = APIRouter(prefix="/admin", tags=["admin"])
 admin_router.include_router(client_router)

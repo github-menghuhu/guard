@@ -19,23 +19,44 @@ from guard.services import OAuthProviderService
 router = APIRouter(prefix="/oauth_provider")
 
 
-@router.post("/", name="oauth_provider:create", response_model=ResponseModel[CreateOAuthProvider])
+@router.post(
+    "/",
+    name="oauth_provider:create",
+    response_model=ResponseModel[CreateOAuthProvider],
+    description="创建OAuth供应商",
+)
 async def create_oauth_provider(
     create_params: CreateOAuthProviderParams,
-    oauth_provider_service: Annotated[OAuthProviderService, Depends(get_oauth_provider_service)],
+    oauth_provider_service: Annotated[
+        OAuthProviderService, Depends(get_oauth_provider_service)
+    ],
 ):
-    oauth_provider = await oauth_provider_service.create(create_params.name, create_params.client_id, create_params.client_secret, create_params.scopes)
+    oauth_provider = await oauth_provider_service.create(
+        create_params.name,
+        create_params.client_id,
+        create_params.client_secret,
+        create_params.scopes,
+    )
     return ResponseModel[CreateOAuthProvider](
         data=oauth_provider,
         message=ApiResponseMessage.create_success,
     )
 
 
-@router.get("/", name="oauth_provider:list", response_model=ResponseModel[ListOAuthProvider])
+@router.get(
+    "/",
+    name="oauth_provider:list",
+    response_model=ResponseModel[ListOAuthProvider],
+    description="查询OAuth供应商",
+)
 async def list_oauth_provider(
     paginate: Annotated[PaginationParams, Depends()],
-    oauth_provider_service: Annotated[OAuthProviderService, Depends(get_oauth_provider_service)],
-    name: Annotated[str | None, Query(min_length=1, max_length=50)] = None,
+    oauth_provider_service: Annotated[
+        OAuthProviderService, Depends(get_oauth_provider_service)
+    ],
+    name: Annotated[
+        str | None, Query(min_length=1, max_length=50, description="名称，支持模糊匹配")
+    ] = None,
 ):
     oauth_providers = await oauth_provider_service.list_paginate(
         name, paginate.page, paginate.size
@@ -46,10 +67,17 @@ async def list_oauth_provider(
     )
 
 
-@router.get("/{id}", name="oauth_provider:get", response_model=ResponseModel[GetOAuthProvider])
+@router.get(
+    "/{id}",
+    name="oauth_provider:get",
+    response_model=ResponseModel[GetOAuthProvider],
+    description="查询OAuth供应商详情",
+)
 async def get_oauth_provider(
-    id_: Annotated[UUID, Path(alias="id")],
-    oauth_provider_service: Annotated[OAuthProviderService, Depends(get_oauth_provider_service)],
+    id_: Annotated[UUID, Path(alias="id", description="供应商id")],
+    oauth_provider_service: Annotated[
+        OAuthProviderService, Depends(get_oauth_provider_service)
+    ],
 ):
     oauth_provider = await oauth_provider_service.get(id_)
     return ResponseModel[GetOAuthProvider](
@@ -58,23 +86,43 @@ async def get_oauth_provider(
     )
 
 
-@router.patch("/{id}", name="oauth_provider:update", response_model=ResponseModel[GetOAuthProvider])
+@router.patch(
+    "/{id}",
+    name="oauth_provider:update",
+    response_model=ResponseModel[GetOAuthProvider],
+    description="更新OAuth供应商",
+)
 async def update_oauth_provider(
-    id_: Annotated[UUID, Path(alias="id")],
+    id_: Annotated[UUID, Path(alias="id", description="供应商id")],
     update_params: UpdateOAuthProviderParams,
-    oauth_provider_service: Annotated[OAuthProviderService, Depends(get_oauth_provider_service)],
+    oauth_provider_service: Annotated[
+        OAuthProviderService, Depends(get_oauth_provider_service)
+    ],
 ):
-    oauth_provider = await oauth_provider_service.update(id_, update_params.name, update_params.client_id, update_params.client_secret, update_params.scopes)
+    oauth_provider = await oauth_provider_service.update(
+        id_,
+        update_params.name,
+        update_params.client_id,
+        update_params.client_secret,
+        update_params.scopes,
+    )
     return ResponseModel[GetOAuthProvider](
         data=oauth_provider,
         message=ApiResponseMessage.update_success,
     )
 
 
-@router.delete("/{id}", name="oauth_provider:delete", response_model=ResponseModel)
+@router.delete(
+    "/{id}",
+    name="oauth_provider:delete",
+    response_model=ResponseModel,
+    description="删除OAuth供应商",
+)
 async def delete_oauth_provider(
-    id_: Annotated[UUID, Path(alias="id")],
-    oauth_provider_service: Annotated[OAuthProviderService, Depends(get_oauth_provider_service)],
+    id_: Annotated[UUID, Path(alias="id", description="供应商id")],
+    oauth_provider_service: Annotated[
+        OAuthProviderService, Depends(get_oauth_provider_service)
+    ],
 ):
     await oauth_provider_service.delete(id_)
     return ResponseModel(

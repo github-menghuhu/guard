@@ -1,9 +1,10 @@
+from .authorization_code import AuthorizationCodeRepository
 from .base import BaseRepository, Paginate
 from .client import ClientRepository
+from .oauth_provider import OAuthProviderRepository
 from .permission import PermissionRepository
 from .role import RoleRepository
 from .user import UserRepository
-from .oauth_provider import OAuthProviderRepository
 
 __all__ = [
     "BaseRepository",
@@ -13,4 +14,5 @@ __all__ = [
     "RoleRepository",
     "PermissionRepository",
     "OAuthProviderRepository",
+    "AuthorizationCodeRepository",
 ]

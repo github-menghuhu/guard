@@ -1,11 +1,9 @@
-from datetime import datetime
 from typing import Annotated
-from uuid import UUID
 
 from pydantic import Field
 
 from guard.models import GrantTypes, ResponseTypes, Scopes
-from guard.schemas import BaseModel, Paginate
+from guard.schemas import BaseModel
 
 
 class AuthorizeParams(BaseModel):

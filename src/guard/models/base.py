@@ -2,6 +2,7 @@ import base64
 import functools
 import uuid
 from datetime import UTC, datetime
+from enum import StrEnum
 
 from cryptography.fernet import Fernet
 from sqlalchemy import Boolean, ColumnElement, DateTime, MetaData, Text
@@ -180,3 +181,34 @@ class Base(DeclarativeBase):
 
 class UUIDPrimaryKeyMixin:
     id: Mapped[uuid.UUID] = mapped_column(GUID, primary_key=True, default=uuid.uuid4)
+
+
+class GrantTypes(StrEnum):
+    AUTHORIZATION_CODE = "authorization_code"
+
+
+def generate_client_default_grant_types() -> list[str]:
+    return [gt.value for gt in GrantTypes]
+
+
+class ResponseTypes(StrEnum):
+    CODE = "code"
+
+
+def generate_client_default_response_types() -> list[str]:
+    return [rt.value for rt in ResponseTypes]
+
+
+class Scopes(StrEnum):
+    OPENID = "openid"
+
+
+class ResponseMode(StrEnum):
+    QUERY = "query"
+    FRAGMENT = "fragment"
+
+
+class Prompt(StrEnum):
+    NONE = "none"
+    LOGIN = "login"
+    CONSENT = "consent"

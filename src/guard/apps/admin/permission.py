@@ -20,7 +20,10 @@ router = APIRouter(prefix="/permission")
 
 
 @router.post(
-    "/", name="permission:create", response_model=ResponseModel[CreatePermission]
+    "/",
+    name="permission:create",
+    response_model=ResponseModel[CreatePermission],
+    description="创建权限",
 )
 async def create_permission(
     create_params: CreatePermissionParams,
@@ -33,12 +36,23 @@ async def create_permission(
     )
 
 
-@router.get("/", name="permission:list", response_model=ResponseModel[ListPermission])
+@router.get(
+    "/",
+    name="permission:list",
+    response_model=ResponseModel[ListPermission],
+    description="查询权限列表",
+)
 async def list_permission(
     paginate: Annotated[PaginationParams, Depends()],
     permission_service: Annotated[PermissionService, Depends(get_permission_service)],
-    name: Annotated[str | None, Query(min_length=1, max_length=200)] = None,
-    code: Annotated[str | None, Query(min_length=1, max_length=200)] = None,
+    name: Annotated[
+        str | None,
+        Query(min_length=1, max_length=200, description="权限名称，支持模糊匹配"),
+    ] = None,
+    code: Annotated[
+        str | None,
+        Query(min_length=1, max_length=200, description="权限标识，支持模糊匹配"),
+    ] = None,
 ):
     permissions = await permission_service.list_paginate(
         name, code, paginate.page, paginate.size
@@ -49,9 +63,14 @@ async def list_permission(
     )
 
 
-@router.get("/{id}", name="permission:get", response_model=ResponseModel[GetPermission])
+@router.get(
+    "/{id}",
+    name="permission:get",
+    response_model=ResponseModel[GetPermission],
+    description="查询权限详情",
+)
 async def get_permission(
-    id_: Annotated[UUID, Path(alias="id")],
+    id_: Annotated[UUID, Path(alias="id", description="权限id")],
     permission_service: Annotated[PermissionService, Depends(get_permission_service)],
 ):
     permission = await permission_service.get(id_)
@@ -62,10 +81,13 @@ async def get_permission(
 
 
 @router.patch(
-    "/{id}", name="permission:update", response_model=ResponseModel[GetPermission]
+    "/{id}",
+    name="permission:update",
+    response_model=ResponseModel[GetPermission],
+    description="更新权限",
 )
 async def update_permission(
-    id_: Annotated[UUID, Path(alias="id")],
+    id_: Annotated[UUID, Path(alias="id", description="权限id")],
     update_params: UpdatePermissionParams,
     permission_service: Annotated[PermissionService, Depends(get_permission_service)],
 ):
@@ -78,9 +100,14 @@ async def update_permission(
     )
 
 
-@router.delete("/{id}", name="permission:delete", response_model=ResponseModel)
+@router.delete(
+    "/{id}",
+    name="permission:delete",
+    response_model=ResponseModel,
+    description="删除权限",
+)
 async def delete_permission(
-    id_: Annotated[UUID, Path(alias="id")],
+    id_: Annotated[UUID, Path(alias="id", description="权限id")],
     permission_service: Annotated[PermissionService, Depends(get_permission_service)],
 ):
     await permission_service.delete(id_)

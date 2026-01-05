@@ -19,7 +19,12 @@ from guard.services import ClientService
 router = APIRouter(prefix="/client")
 
 
-@router.post("/", name="client:create", response_model=ResponseModel[CreateClient])
+@router.post(
+    "/",
+    name="client:create",
+    response_model=ResponseModel[CreateClient],
+    description="创建客户端",
+)
 async def create_client(
     create_params: CreateClientParams,
     client_service: Annotated[ClientService, Depends(get_client_service)],
@@ -36,12 +41,23 @@ async def create_client(
     )
 
 
-@router.get("/", name="client:list", response_model=ResponseModel[ListClient])
+@router.get(
+    "/",
+    name="client:list",
+    response_model=ResponseModel[ListClient],
+    description="查询客户端列表",
+)
 async def list_client(
     paginate: Annotated[PaginationParams, Depends()],
     client_service: Annotated[ClientService, Depends(get_client_service)],
-    name: Annotated[str | None, Query(min_length=1, max_length=200)] = None,
-    creator: Annotated[str | None, Query(min_length=1, max_length=200)] = None,
+    name: Annotated[
+        str | None,
+        Query(min_length=1, max_length=200, description="客户端名称，支持模糊匹配"),
+    ] = None,
+    creator: Annotated[
+        str | None,
+        Query(min_length=1, max_length=200, description="创建人，支持模糊匹配"),
+    ] = None,
 ):
     clients = await client_service.list_paginate(
         name, creator, paginate.page, paginate.size
@@ -52,9 +68,14 @@ async def list_client(
     )
 
 
-@router.get("/{id}", name="client:get", response_model=ResponseModel[GetClient])
+@router.get(
+    "/{id}",
+    name="client:get",
+    response_model=ResponseModel[GetClient],
+    description="查询客户端详情",
+)
 async def get_client(
-    id_: Annotated[UUID, Path(alias="id")],
+    id_: Annotated[UUID, Path(alias="id", description="客户端ID")],
     client_service: Annotated[ClientService, Depends(get_client_service)],
 ):
     client = await client_service.get(id_)
@@ -64,9 +85,14 @@ async def get_client(
     )
 
 
-@router.patch("/{id}", name="client:update", response_model=ResponseModel[GetClient])
+@router.patch(
+    "/{id}",
+    name="client:update",
+    response_model=ResponseModel[GetClient],
+    description="更新客户端信息",
+)
 async def update_client(
-    id_: Annotated[UUID, Path(alias="id")],
+    id_: Annotated[UUID, Path(alias="id", description="客户端ID")],
     update_params: UpdateClientParams,
     client_service: Annotated[ClientService, Depends(get_client_service)],
 ):
@@ -84,9 +110,14 @@ async def update_client(
     )
 
 
-@router.delete("/{id}", name="client:delete", response_model=ResponseModel)
+@router.delete(
+    "/{id}",
+    name="client:delete",
+    response_model=ResponseModel,
+    description="删除客户端",
+)
 async def delete_client(
-    id_: Annotated[UUID, Path(alias="id")],
+    id_: Annotated[UUID, Path(alias="id", description="客户端ID")],
     client_service: Annotated[ClientService, Depends(get_client_service)],
 ):
     await client_service.delete(id_)

@@ -1,15 +1,15 @@
-import uuid
+from enum import StrEnum
+from uuid import UUID
 
 from sqlalchemy import Enum, ForeignKey, Text
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 from sqlalchemy.sql.sqltypes import JSON, String
 
-from guard.core.config import settings
 from guard.models.base import (
     GUID,
     Base,
     CreatedUpdatedAtMixin,
-    ExpiresAtMixin,
+    Prompt,
     ResponseMode,
     ResponseTypes,
     Scopes,
@@ -19,15 +19,16 @@ from guard.models.client import Client
 from guard.models.user import User
 
 
-class AuthorizationCode(
-    UUIDPrimaryKeyMixin, CreatedUpdatedAtMixin, ExpiresAtMixin, Base
-):
-    __tablename__ = "authorization_codes"
-    __lifetime_seconds__ = settings.DEFAULT_AUTHORIZATION_CODE_LIFETIME_SECONDS
+class ACR(StrEnum):
+    LEVEL_0 = "0"  # 匿名/最低保证
+    LEVEL_1 = "1"  # 单因素认证
+    LEVEL_2 = "2"
+    LEVEL_3 = "3"
 
-    code: Mapped[str] = mapped_column(
-        String(length=255), nullable=False, index=True, unique=True
-    )
+
+class AuthorizationRequests(UUIDPrimaryKeyMixin, CreatedUpdatedAtMixin, Base):
+    __tablename__ = "authorization_requests"
+
     response_type: Mapped[ResponseTypes] = mapped_column(
         Enum(ResponseTypes), nullable=False
     )
@@ -36,6 +37,7 @@ class AuthorizationCode(
     )
     redirect_uri: Mapped[str] = mapped_column(Text, nullable=False)
     scope: Mapped[list[Scopes]] = mapped_column(JSON, nullable=False, default=list)
+    prompt: Mapped[Prompt] = mapped_column(Enum(Prompt), nullable=False)
     state: Mapped[str | None] = mapped_column(String(length=2048), nullable=True)
     nonce: Mapped[str | None] = mapped_column(String(length=2048), nullable=True)
     code_challenge: Mapped[str | None] = mapped_column(
@@ -45,12 +47,11 @@ class AuthorizationCode(
         String(length=255), nullable=True
     )
 
-    user_id: Mapped[uuid.UUID] = mapped_column(
-        GUID, ForeignKey(User.id, ondelete="CASCADE"), nullable=False
+    user_id: Mapped[UUID | None] = mapped_column(
+        GUID, ForeignKey(User.id, ondelete="CASCADE"), nullable=True
     )
-    user: Mapped[User] = relationship()
-
-    client_id: Mapped[uuid.UUID] = mapped_column(
+    user: Mapped[User | None] = relationship()
+    client_id: Mapped[UUID] = mapped_column(
         GUID, ForeignKey(Client.id, ondelete="CASCADE"), nullable=False
     )
     client: Mapped[Client] = relationship()

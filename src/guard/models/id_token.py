@@ -16,9 +16,9 @@ from guard.models.client import Client
 from guard.models.user import User
 
 
-class RefreshToken(UUIDPrimaryKeyMixin, CreatedUpdatedAtMixin, ExpiresAtMixin, Base):
-    __tablename__ = "refresh_tokens"
-    __lifetime_seconds__ = settings.DEFAULT_REFRESH_TOKEN_LIFETIME_SECONDS
+class IDToken(UUIDPrimaryKeyMixin, CreatedUpdatedAtMixin, ExpiresAtMixin, Base):
+    __tablename__ = "id_tokens"
+    __lifetime_seconds__ = settings.DEFAULT_ACCESS_ID_TOKEN_LIFETIME_SECONDS
 
     token: Mapped[str] = mapped_column(
         String(length=255), nullable=False, index=True, unique=True

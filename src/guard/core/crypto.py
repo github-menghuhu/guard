@@ -1,3 +1,6 @@
+import base64
+import hashlib
+
 from pwdlib import PasswordHash
 from pwdlib.hashers.argon2 import Argon2Hasher
 
@@ -21,3 +24,18 @@ class PasswordHasher:
 
 
 password_hasher = PasswordHasher()
+
+
+class SecureRandomGenerator:
+    def hash_code_verifier(
+        self, code_verifier: str, code_challenge_method: str = "S256"
+    ) -> str:
+        """目前只支持S256"""
+        h = hashlib.sha256()
+        h.update(code_verifier.encode("utf-8"))
+        hashed = h.digest()
+        encoded = base64.urlsafe_b64encode(hashed).decode("utf-8")
+        return encoded.rstrip("=")
+
+
+secure_random_generator = SecureRandomGenerator()

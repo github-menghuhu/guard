@@ -1,42 +1,17 @@
 import secrets
-from enum import StrEnum
 
 from sqlalchemy import JSON, Integer, String, Text
 from sqlalchemy.orm import Mapped, mapped_column
 
 from guard.core.config import settings
-from guard.models.base import Base, CreatedUpdatedAtMixin, UUIDPrimaryKeyMixin
-
-
-class GrantTypes(StrEnum):
-    AUTHORIZATION_CODE = "authorization_code"
-
-
-def generate_client_default_grant_types() -> list[str]:
-    return [gt.value for gt in GrantTypes]
-
-
-class ResponseTypes(StrEnum):
-    CODE = "code"
-
-
-def generate_client_default_response_types() -> list[str]:
-    return [rt.value for rt in ResponseTypes]
-
-
-class Scopes(StrEnum):
-    OPENID = "openid"
-
-
-class ResponseMode(StrEnum):
-    QUERY = "query"
-    FRAGMENT = "fragment"
-
-
-class Prompt(StrEnum):
-    NONE = "none"
-    LOGIN = "login"
-    CONSENT = "consent"
+from guard.models.base import (
+    Base,
+    CreatedUpdatedAtMixin,
+    Scopes,
+    UUIDPrimaryKeyMixin,
+    generate_client_default_grant_types,
+    generate_client_default_response_types,
+)
 
 
 class Client(UUIDPrimaryKeyMixin, CreatedUpdatedAtMixin, Base):

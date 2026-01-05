@@ -68,13 +68,6 @@ class Settings(BaseSettings):
     DEFAULT_ACCESS_ID_TOKEN_LIFETIME_SECONDS: int = 3600 * 24
     DEFAULT_REFRESH_TOKEN_LIFETIME_SECONDS: int = 3600 * 24 * 7
 
-    # 注册会话过期时间
-    REGISTRATION_SESSION_LIFETIME_SECONDS: int = 3600
-    # 登录会话过期时间
-    LOGIN_SESSION_LIFETIME_SECONDS: int = 3600
-    # OAuth会话过期时间
-    OAUTH_SESSION_LIFETIME_SECONDS: int = 3600
-
     # 用户会话过期时间
     SESSION_LIFETIME_SECONDS: int = 3600 * 24 * 7
 

@@ -36,13 +36,27 @@ async def create_user(
     )
 
 
-@router.get("/", name="user:list", response_model=ResponseModel[ListUser])
+@router.get(
+    "/",
+    name="user:list",
+    response_model=ResponseModel[ListUser],
+    description="查询用户列表",
+)
 async def list_user(
     paginate: Annotated[PaginationParams, Depends()],
     user_service: Annotated[UserService, Depends(get_user_service)],
-    name: Annotated[str | None, Query(min_length=1, max_length=200)] = None,
-    email: Annotated[str | None, Query(min_length=1, max_length=300)] = None,
-    phone: Annotated[str | None, Query(min_length=3, max_length=11)] = None,
+    name: Annotated[
+        str | None,
+        Query(min_length=1, max_length=200, description="用户名，支持模糊匹配"),
+    ] = None,
+    email: Annotated[
+        str | None,
+        Query(min_length=1, max_length=300, description="邮箱，支持模糊匹配"),
+    ] = None,
+    phone: Annotated[
+        str | None,
+        Query(min_length=3, max_length=11, description="手机号，支持模糊匹配"),
+    ] = None,
 ):
     users = await user_service.list_paginate(
         name, email, phone, paginate.page, paginate.size
@@ -53,9 +67,14 @@ async def list_user(
     )
 
 
-@router.get("/{id}", name="user:get", response_model=ResponseModel[GetUser])
+@router.get(
+    "/{id}",
+    name="user:get",
+    response_model=ResponseModel[GetUser],
+    description="查询用户详情",
+)
 async def get_user(
-    id_: Annotated[UUID, Path(alias="id")],
+    id_: Annotated[UUID, Path(alias="id", description="用户ID")],
     user_service: Annotated[UserService, Depends(get_user_service)],
 ):
     user = await user_service.get(id_)
@@ -65,9 +84,14 @@ async def get_user(
     )
 
 
-@router.patch("/{id}", name="user:update", response_model=ResponseModel[UpdateUser])
+@router.patch(
+    "/{id}",
+    name="user:update",
+    response_model=ResponseModel[UpdateUser],
+    description="更新用户信息",
+)
 async def update_user(
-    id_: Annotated[UUID, Path(alias="id")],
+    id_: Annotated[UUID, Path(alias="id", description="用户ID")],
     update_params: UpdateUserParams,
     user_service: Annotated[UserService, Depends(get_user_service)],
 ):
@@ -82,9 +106,11 @@ async def update_user(
     )
 
 
-@router.delete("/{id}", name="user:delete", response_model=ResponseModel)
+@router.delete(
+    "/{id}", name="user:delete", response_model=ResponseModel, description="删除用户"
+)
 async def delete_user(
-    id_: Annotated[UUID, Path(alias="id")],
+    id_: Annotated[UUID, Path(alias="id", description="用户ID")],
     user_service: Annotated[UserService, Depends(get_user_service)],
 ):
     await user_service.delete(id_)

@@ -13,8 +13,12 @@ class CreatePermissionParams(BaseModel):
 
 
 class UpdatePermissionParams(BaseModel):
-    name: Annotated[str | None, Field(min_length=1, max_length=200, description="权限名称")] = None
-    code: Annotated[str | None, Field(min_length=1, max_length=200, description="权限标识")] = None
+    name: Annotated[
+        str | None, Field(min_length=1, max_length=200, description="权限名称")
+    ] = None
+    code: Annotated[
+        str | None, Field(min_length=1, max_length=200, description="权限标识")
+    ] = None
 
 
 class _PermissionBase(BaseModel):

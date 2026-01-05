@@ -7,6 +7,14 @@ from .client import (
     UpdateClient,
     UpdateClientParams,
 )
+from .oauth_provider import (
+    CreateOAuthProvider,
+    CreateOAuthProviderParams,
+    GetOAuthProvider,
+    ListOAuthProvider,
+    UpdateOAuthProvider,
+    UpdateOAuthProviderParams,
+)
 from .permission import (
     CreatePermission,
     CreatePermissionParams,
@@ -31,14 +39,6 @@ from .user import (
     PasswordStr,
     UpdateUser,
     UpdateUserParams,
-)
-from .oauth_provider import (
-    CreateOAuthProvider,
-    CreateOAuthProviderParams,
-    GetOAuthProvider,
-    ListOAuthProvider,
-    UpdateOAuthProvider,
-    UpdateOAuthProviderParams,
 )
 
 __all__ = [

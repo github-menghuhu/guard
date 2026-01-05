@@ -4,7 +4,6 @@ import uuid
 from sqlalchemy import ForeignKey, String, Text
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
-from guard.core.config import settings
 from guard.models.base import (
     GUID,
     Base,
@@ -18,7 +17,6 @@ from guard.models.oauth_provider import OAuthProvider
 
 class OAuthSession(UUIDPrimaryKeyMixin, CreatedUpdatedAtMixin, ExpiresAtMixin, Base):
     __tablename__ = "oauth_sessions"
-    __lifetime_seconds = settings.OAUTH_SESSION_LIFETIME_SECONDS
 
     token: Mapped[str] = mapped_column(
         String(length=255),
