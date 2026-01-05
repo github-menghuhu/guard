@@ -4,6 +4,7 @@ from api_exception import APIException
 from fastapi import status
 from pydantic import HttpUrl
 
+from guard.core.config import settings
 from guard.core.exception import ExceptionCode
 from guard.models import (
     Client,
@@ -65,14 +66,25 @@ class AuthService:
         self._validate_client_configuration(client, redirect_uri, scope, response_type)
 
         if prompt == Prompt.LOGIN:
-            redirect_to = "http://xxxxxxlogin"
+            redirect_to = settings.SIGN_IN_URL
         elif prompt == Prompt.CONSENT:
             if user is None:
-                redirect_to = "http://xxxxxxlogin"
+                redirect_to = settings.SIGN_IN_URL
 
-            redirect_to = "http://xxxxxxconsent"
+            redirect_to = settings.CONSENT_URL
         elif prompt == Prompt.NONE:
             if user is None:
-                redirect_to = "http://xxxxxxlogin"
+                raise APIException(
+                    http_status_code=status.HTTP_400_BAD_REQUEST,
+                    error_code=ExceptionCode.VALIDATION_ERROR,
+                    message="需要用户先认证"
+                )
 
-            redirect_to = "http://xxxxxxconsent"
+            if user.scope is None:
+                raise APIException(
+                    http_status_code=status.HTTP_400_BAD_REQUEST,
+                    error_code=ExceptionCode.VALIDATION_ERROR,
+                    message="需要用户进行授权"
+                )
+
+            code = "xxxxxxxxxxx"

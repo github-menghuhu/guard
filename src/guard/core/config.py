@@ -2,7 +2,7 @@ import os
 from enum import StrEnum
 from functools import lru_cache
 
-from pydantic import ValidationError, computed_field
+from pydantic import ValidationError, computed_field, HttpUrl
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
 
@@ -68,8 +68,10 @@ class Settings(BaseSettings):
     DEFAULT_ACCESS_ID_TOKEN_LIFETIME_SECONDS: int = 3600 * 24
     DEFAULT_REFRESH_TOKEN_LIFETIME_SECONDS: int = 3600 * 24 * 7
 
-    # 用户会话过期时间
-    SESSION_LIFETIME_SECONDS: int = 3600 * 24 * 7
+    # 前端注册、登录、授权页面地址
+    SIGN_UP_URL: HttpUrl
+    SIGN_IN_URL: HttpUrl
+    CONSENT_URL: HttpUrl
 
     model_config = SettingsConfigDict(
         env_file_encoding="utf-8",
